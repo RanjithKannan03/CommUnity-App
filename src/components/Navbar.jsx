@@ -1,5 +1,5 @@
 import React from 'react';
-import { MagnifyingGlass, Plus, ChatCircleDots } from './Icons';
+import { Plus, ChatCircleDots } from './Icons';
 import {
     Tooltip,
     TooltipContent,
@@ -11,6 +11,7 @@ import MobileMenu from './MobileMenu';
 import Link from 'next/link';
 import logo from '../../public/assets/logo.png';
 import Image from 'next/image';
+import CommunitySearchBar from './CommunitySearchBar';
 
 const Navbar = () => {
 
@@ -49,11 +50,7 @@ const Navbar = () => {
 
 
             {/* Seacrh Bar */}
-            <div className='items-center hidden gap-2 p-2 text-black rounded-full md:flex lg:w-1/3 bg-zinc-100'>
-                <MagnifyingGlass size={25} />
-                <input className='px-2 bg-transparent lg:flex-1 focus:outline-none focus:ring-0' placeholder='Search CommUnity' type='text' autoComplete='off' />
-
-            </div>
+            <CommunitySearchBar />
 
             {/* Links */}
             <div className='flex items-center justify-end gap-4 lg:w-1/3'>

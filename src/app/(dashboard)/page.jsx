@@ -54,10 +54,10 @@ export default function Home() {
   return (
     <div className="flex justify-center flex-1 py-4">
 
-      <div className="flex flex-col items-center flex-1 w-full overflow-y-auto">
+      <div className="flex flex-col items-center w-full h-full overflow-y-auto">
 
-        <div className="flex w-full">
-          <div className="flex flex-col items-center w-full h-full gap-6">
+        <div className="flex w-full h-screen">
+          <div className="flex flex-col items-center w-full gap-6">
 
 
             {

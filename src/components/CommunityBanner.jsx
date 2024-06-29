@@ -12,7 +12,7 @@ function bannerLoader(config) {
 
 const CommunityBanner = (props) => {
     return (
-        <Image src={props.url} fill className='object-cover' alt='banner' loader={bannerLoader} quality={75} priority />
+        <Image src={props.url} fill className='object-cover' alt='banner' priority />
     )
 }
 

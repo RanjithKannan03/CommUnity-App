@@ -285,6 +285,21 @@ app.post('/joinCommunity', async (req, res) => {
     }
 });
 
+app.get('/search', async (req, res) => {
+    const query = req.query.q;
+    var i = 0;
+    try {
+        const result = await Community.find({ name: { $regex: query, $options: 'i' } });
+        console.log(i++);
+        console.log(result);
+        res.status(200).json({ result: result });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
 // passport local strategy
 
 passport.use(new Strategy(async function verify(username, password, cb) {

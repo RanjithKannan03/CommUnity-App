@@ -12,6 +12,13 @@ const CommunitiesList = (props) => {
     const open = communityListStore((state) => state.open);
     const user = userStore((state) => state.user);
 
+    function ImageLoader(config) {
+        const urlStart = config.src.split('upload/')[0];
+        const urlEnd = config.src.split('upload/')[1];
+        const transformations = `w_120,q_${config.quality}`;
+        return `${urlStart}upload/${transformations}/${urlEnd}`;
+    }
+
     return (
         <AnimatePresence>
             {
@@ -27,13 +34,14 @@ const CommunitiesList = (props) => {
 
                                             <div className='relative w-10 h-10'>
 
-                                                <Image src={community.logoURL} fill sizes='40' className='object-cover rounded-full' alt='community-logo' />
+                                                <Image src={community.logoURL} loader={ImageLoader} fill sizes='40' className='object-cover rounded-full' alt='community-logo' quality={75} />
 
                                             </div>
 
                                             <span className=''>{community.name}</span>
 
                                         </Link>
+
                                     )
                                 })}
 
