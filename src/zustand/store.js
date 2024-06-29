@@ -14,3 +14,16 @@ export const userStore = create(
         },
     )
 );
+
+export const communityListStore = create(
+    persist(
+        (set, get) => ({
+            open: false,
+            toggle: () => set({ open: !get().open })
+        }),
+        {
+            name: 'user-storage', // name of the item in the storage (must be unique)
+            storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+        }
+    )
+);

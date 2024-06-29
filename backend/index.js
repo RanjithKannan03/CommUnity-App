@@ -9,6 +9,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 
 import { User, Community, Posts, Comments } from './models/models.js';
+import { uploadImage } from './cloudinary.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -65,7 +66,7 @@ app.post('/register', async (req, res) => {
             return res.status(200).json({ message: "The username you have chosen is already taken. Please choose a different username." });
         }
 
-        bcrypt.hash(password, saltRounds, (err, hash) => {
+        bcrypt.hash(password, saltRounds, async (err, hash) => {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ message: "Please try again later." });
@@ -76,7 +77,7 @@ app.post('/register', async (req, res) => {
                     password: hash,
                     username: username
                 });
-                newUser.save();
+                await newUser.save();
                 req.login(newUser, (err) => {
                     if (err) {
                         console.log(err);
@@ -107,7 +108,6 @@ app.post('/login', function (req, res, next) {
                 return res.status(500).json({ message: "Please try again later." });
             }
             else {
-                console.log(req.isAuthenticated());
                 return res.status(200).json({ message: "success" });
             }
         })
@@ -115,8 +115,6 @@ app.post('/login', function (req, res, next) {
 });
 
 app.get('/isAuthenticated', (req, res) => {
-    console.log(req.user);
-    console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
         const user = {
             id: req.user._id,
@@ -135,7 +133,6 @@ app.get('/isAuthenticated', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    console.log('logout');
     req.logout((err) => {
         if (err) {
             return res.status(500).json({ message: "Please try again later." });
@@ -145,6 +142,82 @@ app.get('/logout', (req, res) => {
         }
     });
 })
+
+app.post('/createCommunity', async (req, res) => {
+    const userID = req.user._id;
+    const name = req.body.name;
+    const description = req.body.description;
+    const logoURL = req.body.logoURL;
+    const bannerURL = req.body.bannerURL;
+    // const bannerURL = uploadImage(banner);
+    // const logoURL = uploadImage(logo);
+
+    try {
+        const nameCheck = await Community.findOne({ name: name });
+        if (nameCheck) {
+            return res.status(200).json({ message: "A community with this name already exists. Please use a different name." });
+        }
+
+        const followingUserIDs = [userID];
+
+        const newCommunity = new Community({
+            name: name,
+            description: description,
+            logoURL: logoURL,
+            bannerURL: bannerURL,
+            adminId: userID,
+            followingUserIDs: followingUserIDs
+        });
+
+        await newCommunity.save();
+
+        // const user = await User.findById(userID);
+
+        // const communityIDs = user.communityIDs;
+        // communityIDs.push(newCommunity._id);
+
+        const updatedUser = await User.findByIdAndUpdate(userID,
+            { $push: { communityIDs: newCommunity._id } },
+            { new: true });
+
+
+        if (req.user && req.user._id === userID) {
+            req.user.communityIDs = updatedUser.communityIDs;
+        }
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            likedPosts: req.user.likedPosts
+        };
+        return res.status(200).json({ message: 'success', user: user });
+
+    }
+
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/followingCommunityDetails', async (req, res) => {
+    const userID = req.body.id;
+    console.log('Following Community Details fetched');
+    try {
+        const user = await User.findById(userID).select('communityIDs').populate('communityIDs').exec();
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return res.status(200).json({ communities: user.communityIDs });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+
+});
 
 // passport local strategy
 

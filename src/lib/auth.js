@@ -30,7 +30,7 @@ export async function login(prevState, formData) {
     });
 
     if (response.status != 200) {
-        throw new Error("Please try again later.")
+        throw new Error("Please try again later.");
     }
     else {
         const data = response.data;

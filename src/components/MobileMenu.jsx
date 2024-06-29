@@ -77,6 +77,12 @@ const MobileMenu = () => {
             currentPathIcon: <HiPlus size={25} />,
             icon: <HiPlus size={25} />,
             url: '/newPost'
+        },
+        {
+            text: 'Create Community',
+            currentPathIcon: <HiPlus size={25} />,
+            icon: <HiPlus size={25} />,
+            url: '/community/newCommunity'
         }
     ];
     const path = usePathname();

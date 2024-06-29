@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import FormSubmitButton from '@/components/FormSubmitButton';
+import AuthFormSubmitButton from '@/components/AuthFormSubmitButton';
 import { useFormState } from 'react-dom';
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { register } from '@/lib/auth';
@@ -16,7 +16,7 @@ const page = () => {
     return (
         <div className='flex items-center justify-center w-full h-full'>
 
-            <div className='flex w-[30%] flex-col gap-4 p-4 text-black'>
+            <div className='flex w-full lg:w-[40%] xl:w-[30%] flex-col gap-4 p-4 text-black'>
 
                 <div className='relative flex items-center self-center justify-center pb-2 w-44 h-44'>
 
@@ -121,7 +121,7 @@ const page = () => {
                         </label>
                     </div>
 
-                    <FormSubmitButton text="Register" />
+                    <AuthFormSubmitButton text="Register" />
 
 
                 </form>

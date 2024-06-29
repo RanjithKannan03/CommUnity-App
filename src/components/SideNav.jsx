@@ -6,8 +6,10 @@ import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { BsArrowUpRightCircle, BsArrowUpRightCircleFill } from "react-icons/bs";
 import Link from 'next/link';
 import FollowingCommunities from './FollowingCommunities';
+import { HiOutlinePlus } from "react-icons/hi";
 
 const SideNav = () => {
+
 
     const links = [
         {
@@ -22,6 +24,12 @@ const SideNav = () => {
             icon: <BsArrowUpRightCircle size={25} />,
             url: '/popular'
         },
+        {
+            text: 'Create a community',
+            currentPathIcon: <HiOutlinePlus size={25} />,
+            icon: <HiOutlinePlus size={25} />,
+            url: '/community/newCommunity'
+        }
     ];
 
     const path = usePathname();
@@ -48,11 +56,17 @@ const SideNav = () => {
 
             </div>
 
+
+
             <div className='w-full h-[1px] bg-zinc-200 mt-2' />
 
             <div className='flex flex-1'>
                 <FollowingCommunities />
             </div>
+
+
+
+
 
 
 

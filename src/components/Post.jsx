@@ -38,7 +38,7 @@ const Post = (props) => {
                 props.attachment ?
                     (
                         <div className='w-full h-[40rem] relative'>
-                            <Image src={faker.image.url()} fill size='640' className='object-contain' alt='post image' />
+                            <Image src={faker.image.url()} fill sizes='640' className='object-contain' alt='post image' />
                         </div>
                     )
                     :

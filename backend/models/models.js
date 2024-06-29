@@ -22,16 +22,15 @@ export const User = mongoose.model('User', userSchema);
 
 const communitySchema = new mongoose.Schema({
     name: String,
-    title: String,
     description: String,
     adminId: {
         type: Schema.Types.ObjectId, ref: 'User'
     },
-    avatarURL: {
+    logoURL: {
         type: String,
         default: 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'
     },
-    backgroundImageURL: {
+    bannerURL: {
         type: String,
         default: 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'
     },
