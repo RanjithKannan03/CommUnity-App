@@ -44,6 +44,14 @@ export const Community = mongoose.model('Community', communitySchema);
 
 const postsSchema = new mongoose.Schema({
     title: String,
+    communityId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Community'
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     text: String,
     attachmentURL: String,
     numberLikes: Number,

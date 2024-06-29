@@ -204,9 +204,9 @@ app.post('/createCommunity', async (req, res) => {
 
 app.post('/followingCommunityDetails', async (req, res) => {
     const userID = req.body.id;
-    console.log('Following Community Details fetched');
     try {
         const user = await User.findById(userID).select('communityIDs').populate('communityIDs').exec();
+        console.log(user);
         if (!user) {
             throw new Error('User not found');
         }
@@ -217,6 +217,72 @@ app.post('/followingCommunityDetails', async (req, res) => {
     }
 
 
+});
+
+app.get('/community/:communityId', async (req, res) => {
+    const communityId = req.params.communityId;
+
+    try {
+        const community = await Community.findById(communityId).populate('followingUserIDs');
+        if (!community) {
+            return res.status(200).json({ message: 'Community not found' });
+        }
+        const posts = await Posts.find({ communityId }).populate('userId', '_id username avatarURL');
+        const data = {
+            communityId: community._id,
+            bannerURL: community.bannerURL,
+            logoURL: community.logoURL,
+            name: community.name,
+            description: community.description,
+            adminId: community.adminId,
+            followingUsers: community.followingUserIDs,
+            createdAt: community.createdAt.toLocaleDateString(),
+            posts: posts
+        }
+        return res.status(200).json({ data });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
+
+app.post('/joinCommunity', async (req, res) => {
+    const userID = req.user._id;
+    const communityId = req.body.communityId;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userID,
+            { $push: { communityIDs: communityId } },
+            { new: true });
+
+        if (req.user && req.user._id === userID) {
+            console.log('hi');
+            req.user.communityIDs = updatedUser.communityIDs;
+        }
+
+        console.log(req.user);
+
+        const updatedCommunity = await Community.findByIdAndUpdate(communityId,
+            { $push: { followingUserIDs: userID } },
+            { new: true }
+        );
+
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            likedPosts: req.user.likedPosts
+        };
+        console.log(user);
+        return res.status(200).json({ message: 'success', user: user });
+
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
 });
 
 // passport local strategy

@@ -8,7 +8,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 const Post = (props) => {
     faker.seed(123);
     return (
-        <div className='flex flex-col w-full lg:w-[60%] items-start p-3 rounded-xl gap-2 hover:bg-[#D7F3FF] dark:hover:bg-[#1F1F1F]'>
+        <div className='flex flex-col w-full lg:w-[65%] items-start p-3 rounded-xl gap-2 hover:bg-[#D7F3FF] dark:hover:bg-[#1F1F1F]'>
 
             {/* Metadata */}
 

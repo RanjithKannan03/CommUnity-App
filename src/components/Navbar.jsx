@@ -39,12 +39,12 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 <MobileMenu />
 
-                <div className='flex items-center gap-4'>
+                <Link className='flex items-center gap-4' href='/'>
                     <div className='relative flex items-center justify-center w-16 h-16'>
                         <Image src={logo} fill sizes='64' alt='logo' className='object-contain' />
                     </div>
                     <span className='hidden text-2xl font-semibold lg:flex'>CommUnity</span>
-                </div>
+                </Link>
             </div>
 
 

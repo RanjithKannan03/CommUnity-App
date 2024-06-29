@@ -51,9 +51,37 @@ export async function createCommunity(prevState, formData) {
         }
         else {
             state.loginUser(data.user);
-            update();
+            update('/');
         }
     }
 }
 
 
+export async function joinCommunity(communityId) {
+    const data = {
+        communityId: communityId
+    };
+
+    const state = userStore.getState();
+
+    const response = await axios.post('http://localhost:8000/joinCommunity', { ...data }, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        withCredentials: true
+    });
+    if (response.status != 200) {
+        throw new Error("Please try again later.");
+    }
+    else {
+        const data = response.data;
+        if (data.message != 'success') {
+            return { error: data.message }
+        }
+        else {
+            console.log(data);
+            state.loginUser(data.user);
+            update(`/community/${communityId}`);
+        }
+    }
+}
