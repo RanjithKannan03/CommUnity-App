@@ -9,6 +9,8 @@ import {
 import Avatar from './Avatar';
 import MobileMenu from './MobileMenu';
 import Link from 'next/link';
+import logo from '../../public/assets/logo.png';
+import Image from 'next/image';
 
 const Navbar = () => {
 
@@ -17,12 +19,12 @@ const Navbar = () => {
         {
             name: "Open Chat",
             href: '/chat',
-            icon: <ChatCircleDots size={25} />
+            icon: <ChatCircleDots size={32} />
         },
         {
             name: "Create Post",
             href: '/newPost',
-            icon: <Plus size={25} />,
+            icon: <Plus size={32} />,
             text: "Create"
         }
     ]
@@ -37,7 +39,10 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 <MobileMenu />
 
-                <div className='flex'>
+                <div className='flex items-center gap-4'>
+                    <div className='relative flex items-center justify-center w-16 h-16'>
+                        <Image src={logo} fill sizes='64' alt='logo' className='object-contain' />
+                    </div>
                     <span className='hidden text-2xl font-semibold lg:flex'>CommUnity</span>
                 </div>
             </div>

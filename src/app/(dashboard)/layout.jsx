@@ -19,10 +19,10 @@ export default function RootLayout({ children }) {
         <SessionHandler>
           <Providers>
             <div className="w-screen h-screen">
-              <div className="w-full h-14">
+              <div className="w-full h-20">
                 <Navbar />
               </div>
-              <div className="h-[calc(100vh-3.5rem)] bg-[#FFFFFF] dark:bg-[#141414] w-full flex">
+              <div className="h-[calc(100vh-5rem)] bg-[#FFFFFF] dark:bg-[#141414] w-full flex">
                 {/* Side nav */}
                 <SideNav />
                 {children}

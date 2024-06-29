@@ -6,6 +6,8 @@ import Link from 'next/link';
 import FormSubmitButton from '@/components/FormSubmitButton';
 import { useFormState } from 'react-dom';
 import { login } from '@/lib/auth';
+import logo from '../../../../public/assets/logo.png';
+import Image from 'next/image';
 
 const page = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +16,12 @@ const page = () => {
         <div className='flex items-center justify-center w-full h-full'>
 
             <div className='flex w-[30%] flex-col gap-4 p-4 text-black'>
+
+                <div className='relative flex items-center self-center justify-center pb-2 w-44 h-44'>
+
+                    <Image src={logo} fill sizes='176' className='object-contain' priority alt='logo' />
+
+                </div>
 
                 <span className="text-2xl font-semibold">Login to CommUnity</span>
 

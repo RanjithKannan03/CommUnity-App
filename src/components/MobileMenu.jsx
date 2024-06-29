@@ -7,7 +7,7 @@ import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { BsArrowUpRightCircle, BsArrowUpRightCircleFill, BsChatDots, BsChatDotsFill } from "react-icons/bs";
 import { HiPlus } from "react-icons/hi2"
 import Link from 'next/link';
-import { ur } from '@faker-js/faker';
+import FollowingCommunities from './FollowingCommunities';
 
 const topDivVariant = {
     close: {
@@ -103,7 +103,7 @@ const MobileMenu = () => {
 
             <AnimatePresence>
                 {isOpen ? (
-                    <div className='absolute top-[3.5rem] left-0 z-30 w-screen h-[calc(100vh-3.5rem)] lg:hidden bg-[rgba(0,0,0,0.5)]'>
+                    <div className='absolute top-[5rem] left-0 z-30 w-screen h-[calc(100vh-3.5rem)] lg:hidden bg-[rgba(0,0,0,0.5)]'>
                         <motion.div variants={menuVariant} initial='close' animate='open' exit='close' className='h-full w-[45%] md:w-[35%] flex flex-col gap-4 bg-[#FAFAF9] dark:bg-[#1F1F1F] border-[#DBE4E9] p-4'>
 
                             {/* Navlinks */}
@@ -124,6 +124,10 @@ const MobileMenu = () => {
                                     })
                                 }
 
+                            </div>
+
+                            <div className='flex flex-1'>
+                                <FollowingCommunities />
                             </div>
 
                         </motion.div>

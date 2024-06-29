@@ -23,7 +23,7 @@ const FollowingCommunities = () => {
     return (
         <div className='flex flex-col w-full gap-2 h-2/3'>
 
-            <div className='flex items-center w-full hover:bg-[#D7F3FF] p-2 rounded-xl justify-between' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
+            <div className='flex items-center w-full hover:bg-[#D7F3FF] dark:hover:bg-[#FE686F] p-2 rounded-xl justify-between' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
                 <span className='text-lg'>Your Communities</span>
                 <motion.div variants={arrowVariant} initial="close" animate={isOpen ? 'open' : null}>
                     <IoIosArrowUp size={20} />

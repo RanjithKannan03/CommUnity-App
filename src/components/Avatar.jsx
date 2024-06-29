@@ -33,8 +33,8 @@ const Avatar = () => {
 
     return (
         <>
-            <button className='relative w-10 h-10 p-2 rounded-full active:ring-4 active:ring-white' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
-                <Image src={user.avatarURL} alt='profile-pic' priority fill sizes='40' className='object-contain rounded-full' />
+            <button className='relative w-12 h-12 p-2 rounded-full active:ring-4 active:ring-white' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
+                <Image src={user.avatarURL} alt='profile-pic' priority fill sizes='48' className='object-contain rounded-full' />
             </button>
 
             <AnimatePresence>
