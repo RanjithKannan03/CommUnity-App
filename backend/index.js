@@ -446,6 +446,18 @@ app.post('/unlikePost', async (req, res) => {
     }
 })
 
+app.get('/postLikes', async (req, res) => {
+    const postId = req.query.postId;
+    console.log('hi');
+    try {
+        const post = await Posts.findById(postId);
+        return res.status(200).json({ message: 'success', likedUserIds: post.likedUserIds });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
 
 // passport local strategy
 

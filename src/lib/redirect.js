@@ -5,8 +5,10 @@ import { revalidatePath } from "next/cache";
 
 export async function update(path) {
     console.log(path);
-    revalidatePath(path);
-    redirect(path);
+    if (path != null) {
+        revalidatePath(path);
+        redirect(path);
+    }
 }
 
 
