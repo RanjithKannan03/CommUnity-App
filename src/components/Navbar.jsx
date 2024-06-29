@@ -1,70 +1,78 @@
 import React from 'react';
 import { MagnifyingGlass, Plus, ChatCircleDots } from './Icons';
-import { faker } from '@faker-js/faker';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import Avatar from './Avatar';
+import MobileMenu from './MobileMenu';
+import Link from 'next/link';
 
 const Navbar = () => {
-    faker.seed(123);
+
 
     const links = [
         {
             name: "Open Chat",
-            href: '/',
-            icon: <ChatCircleDots size={25} weight='light' />
+            href: '/chat',
+            icon: <ChatCircleDots size={25} />
         },
         {
             name: "Create Post",
-            href: '/',
-            icon: <Plus size={25} weight='light' />,
+            href: '/newPost',
+            icon: <Plus size={25} />,
             text: "Create"
         }
     ]
 
     return (
-        <div className='flex justify-between w-full h-full py-4 px-4 border-b-[1px] border-[#DBE4E9] md:px-8 lg:px-20 xl:px-44'>
+        <div className='flex justify-between items-center bg-[#1DA1F2] dark:bg-[#B43638] w-full h-full py-4 px-4 md:px-8 lg:px-20 xl:px-44 relative'>
 
-            {/* Logo and Name */}
-            {
-                <div className='flex items-center w-1/3'>
-                    <span className='text-2xl font-semibold'>CommUnity</span>
+
+            {/* Logo and Name and Burger */}
+
+            <div className='flex items-center gap-4 lg:w-1/3'>
+                {/* Mobile Menu */}
+                <MobileMenu />
+
+                <div className='flex'>
+                    <span className='hidden text-2xl font-semibold lg:flex'>CommUnity</span>
                 </div>
-            }
+            </div>
+
 
             {/* Seacrh Bar */}
-            <div className='w-1/3 flex items-center gap-2 p-4 text-black bg-[#DBE4E9] rounded-full'>
+            <div className='items-center hidden gap-2 p-2 text-black rounded-full md:flex lg:w-1/3 bg-zinc-100'>
                 <MagnifyingGlass size={25} />
-                <input className='flex-1 px-2 bg-transparent focus:outline-none focus:ring-0' placeholder='Search CommUnity' type='text' autoComplete='off' />
+                <input className='px-2 bg-transparent lg:flex-1 focus:outline-none focus:ring-0' placeholder='Search CommUnity' type='text' autoComplete='off' />
 
             </div>
 
             {/* Links */}
-            <div className='flex items-center justify-end w-1/3 gap-4'>
+            <div className='flex items-center justify-end gap-4 lg:w-1/3'>
                 {
                     links.map((link) => {
                         return (
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <div className='flex items-center p-2 rounded-full gap-2 justify-center hover:[#DBE4E9]'>
+                                        <Link key={link.name} href={link.href} className='hidden md:flex items-center p-2 rounded-full gap-2 justify-center hover:bg-[#F5F8FA] text-black dark:text-white dark:hover:bg-[#FE686F]'>
                                             {link.icon}
                                             {
                                                 link.text ?
                                                     (
-                                                        <span className='font-light text-center'>{link.text}</span>
+                                                        <span className='text-center'>{link.text}</span>
                                                     )
                                                     :
                                                     null
                                             }
-                                        </div>
+                                        </Link>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <div className='bg-[#333D42] text-white p-2 rounded-2xl text-sm'>
-                                            <div class="absolute bottom-full left-1/2 h-0 w-0 border-x-4 border-b-8 border-solid border-x-transparent border-b-[#333D42]" />
+                                        <div className='relative p-2 text-sm text-white bg-black z-500 rounded-2xl'>
+                                            <div class="absolute bottom-full left-1/2 h-0 w-0 border-x-4 border-b-8 border-solid border-x-transparent border-b-black" />
                                             <span>{link.name}</span>
                                         </div>
                                     </TooltipContent>
@@ -73,6 +81,11 @@ const Navbar = () => {
                         )
                     })
                 }
+
+                {/* Avatar */}
+
+                <Avatar />
+
 
             </div>
 

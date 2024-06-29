@@ -1,3 +1,3 @@
-import { MagnifyingGlass, Plus, ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass, Plus, ChatCircleDots, CloudMoon, SignOut } from "@phosphor-icons/react/dist/ssr";
 
-export { MagnifyingGlass, Plus, ChatCircleDots };
+export { MagnifyingGlass, Plus, ChatCircleDots, CloudMoon, SignOut };
