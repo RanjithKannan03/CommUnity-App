@@ -11,4 +11,8 @@ export async function update(path) {
     }
 }
 
+export async function reload(path) {
+    revalidatePath(path);
+}
+
 

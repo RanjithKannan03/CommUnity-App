@@ -8,9 +8,9 @@ export default async function Home() {
   return (
     <div className="flex justify-center flex-1 py-4">
 
-      <div className="flex flex-col items-center w-full h-full overflow-y-auto">
+      <div className="flex flex-col items-center w-full h-screen">
 
-        <div className="flex w-full h-screen">
+        <div className="flex flex-col w-full py-4">
 
           <HomePosts />
 

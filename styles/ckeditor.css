@@ -1,0 +1,43 @@
+/* Tailwind-based styles for CKEditor content */
+.ck-editor__editable_inline {
+  @apply p-2 border border-gray-300 rounded-lg;
+}
+
+.ck-content p {
+  @apply mb-4;
+}
+
+.ck-content h1,
+.ck-content h2,
+.ck-content h3,
+.ck-content h4,
+.ck-content h5,
+.ck-content h6 {
+  @apply mb-2 font-bold;
+}
+
+/* .ck-content {
+  @apply bg-black;
+} */
+
+.ck-content ul,
+.ck-content ol {
+  @apply list-disc list-inside;
+}
+
+.ck-content blockquote {
+  @apply pl-4 italic border-l-4 border-gray-300;
+}
+
+/* .ck-editor__main > .ck-editor__editable {
+  background: transparent;
+  border-radius: 0;
+} */
+
+.your-div-class__editor .ck-editor .ck-editor__main .ck-content {
+  @apply bg-transparent resize-y min-h-40;
+}
+
+.your-div-class__editor .ck-editor {
+  @apply rounded-xl;
+}

@@ -8,7 +8,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 
-import { User, Community, Posts, Comments } from './models/models.js';
+import { User, Community, Posts, Comments, Events } from './models/models.js';
 import { uploadImage } from './cloudinary.js';
 
 const app = express();
@@ -226,7 +226,8 @@ app.get('/community/:communityId', async (req, res) => {
         if (!community) {
             return res.status(200).json({ message: 'Community not found' });
         }
-        const posts = await Posts.find({ communityId }).populate('userId', '_id username avatarURL');
+        const posts = await Posts.find({ communityId }).populate('userId', '_id username avatarURL').sort({ createdAt: -1 });
+        const events = await Events.find({ communityId }).sort({ createdAt: -1 });
         const data = {
             communityId: community._id,
             bannerURL: community.bannerURL,
@@ -236,7 +237,8 @@ app.get('/community/:communityId', async (req, res) => {
             adminId: community.adminId,
             followingUsers: community.followingUserIDs,
             createdAt: community.createdAt.toLocaleDateString(),
-            posts: posts
+            posts: posts,
+            events: events
         }
         return res.status(200).json({ data });
     }
@@ -331,7 +333,6 @@ app.get('/search', async (req, res) => {
 
 app.post('/createPost', async (req, res) => {
     const userId = req.user._id;
-    console.log(req.user);
     const title = req.body.title;
     const body = req.body.body;
     const communityId = req.body.communityId;
@@ -363,7 +364,6 @@ app.post('/createPost', async (req, res) => {
 app.get('/home', async (req, res) => {
     const userId = req.user._id;
     const communityIds = req.user.communityIDs;
-    console.log(communityIds);
     try {
         // const posts = await Posts.aggregate([
         //     { $match: { communityId: { $in: communityIds } } },
@@ -411,7 +411,7 @@ app.post('/likePost', async (req, res) => {
         console.log(e);
         return res.status(500).json({ message: "Please try again later." });
     }
-})
+});
 
 app.post('/unlikePost', async (req, res) => {
     const userId = req.user._id;
@@ -444,7 +444,7 @@ app.post('/unlikePost', async (req, res) => {
         console.log(e);
         return res.status(500).json({ message: "Please try again later." });
     }
-})
+});
 
 app.get('/postLikes', async (req, res) => {
     const postId = req.query.postId;
@@ -458,6 +458,158 @@ app.get('/postLikes', async (req, res) => {
         return res.status(500).json({ message: "Please try again later." });
     }
 })
+
+app.get('/post', async (req, res) => {
+    const postId = req.query.postId;
+    const pId = new mongoose.Types.ObjectId(postId);
+    console.log(pId);
+    try {
+        const post = await Posts.findById(postId).populate({
+            path: 'commentIds',
+            populate: {
+                path: 'userId',
+                select: '_id username avatarURL'
+            }
+        })
+            .populate("userId", "_id username avatarURL")
+            .populate("communityId", "_id name logoURL");
+        if (post.commentIds.length > 0) {
+            post.commentIds.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+        // const post = await Posts.aggregate([
+        //     { $match: { _id: pId } },
+        //     { $unwind: "$commentIds" },
+        //     {
+        //         $lookup: {
+        //             from: "comments",
+        //             localField: "commentIds",
+        //             foreignField: "_id",
+        //             as: "commentDetails"
+        //         }
+        //     },
+        //     { $unwind: "$commentDetails" },
+        //     { $sort: { "commentDetails.createdAt": -1 } },
+        //     {
+        //         $group: {
+        //             _id: "$_id",
+        //             title: { $first: "$title" },
+        //             communityId: { $first: "$communityId" },
+        //             userId: { $first: "$userId" },
+        //             body: { $first: "$body" },
+        //             attachmentURL: { $first: "$attachmentURL" },
+        //             numLikes: { $first: "$numLikes" },
+        //             numComments: { $first: "$numComments" },
+        //             likedUserIds: { $first: "$likedUserIds" },
+        //             comments: { $push: "$commentDetails" }
+        //         }
+        //     }
+        // ]);
+        console.log(post);
+        return res.status(200).json({ message: 'success', post: post });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/createComment', async (req, res) => {
+    const postId = req.body.postId;
+    const text = req.body.text;
+    const userId = req.user._id;
+
+    try {
+        const newComment = new Comments({
+            userId: userId,
+            postId: postId,
+            text: text
+        });
+        await newComment.save();
+
+        const post = await Posts.findByIdAndUpdate(postId,
+            { $push: { commentIds: newComment._id } },
+            { new: true }
+        );
+
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+});
+
+app.post('/createEvent', async (req, res) => {
+    const communityId = req.body.communityId;
+    const title = req.body.title;
+    const description = req.body.description;
+    const eventDate = req.body.eventDate;
+    const lastDate = req.body.lastDate;
+    const attachmentURL = req.body.attachmentURL;
+    console.log(req.body);
+
+    const event = {
+        userId: req.user._id,
+        title: title,
+        description: description,
+        communityId: communityId,
+        eventDate: eventDate,
+        lastDate: lastDate
+    };
+
+    if (attachmentURL) {
+        event.attachmentURL = attachmentURL;
+    }
+
+    try {
+        const newEvent = new Events(event);
+        await newEvent.save();
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+});
+
+app.post('/likeEvent', async (req, res) => {
+    const userId = req.user._id;
+    const eventId = req.body.eventId;
+
+    try {
+        const updatedEvent = await Events.findByIdAndUpdate(eventId,
+            { $push: { likedUserIds: userId } },
+            { new: true }
+        );
+        console.log(updatedEvent);
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/unlikeEvent', async (req, res) => {
+    const userId = req.user._id;
+    const eventId = req.body.eventId;
+
+    try {
+        const updatedEvent = await Events.findByIdAndUpdate(eventId,
+            { $pull: { likedUserIds: userId } },
+            { new: true }
+        );
+        console.log(updatedEvent);
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
 
 // passport local strategy
 

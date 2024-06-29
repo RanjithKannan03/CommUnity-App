@@ -15,13 +15,6 @@ const page = () => {
     const loginUser = userStore((state) => state.loginUser);
 
 
-    // useEffect(() => {
-    //     if (state.user) {
-    //         loginUser(state.user);
-    //         update();
-    //     }
-    // }, [state]);
-
     function handleBannerChange(event) {
         const file = event.target.files[0];
         if (!file) {
@@ -65,7 +58,7 @@ const page = () => {
     return (
         <div className='flex items-center justify-center flex-1 py-4'>
 
-            <form className='w-[80%] lg:w-[40%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] p-6' action={formAction}>
+            <form className='w-full md:w-[80%] lg:w-[65%] xl:w-[40%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] p-6' action={formAction}>
 
                 <span className='text-2xl font-semibold'>Create your own Community</span>
 

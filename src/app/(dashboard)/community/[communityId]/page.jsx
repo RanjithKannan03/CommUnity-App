@@ -3,68 +3,18 @@ import axios from 'axios';
 import CommunityBanner from '@/components/CommunityBanner';
 import CommunityLogo from '@/components/CommunityLogo';
 import { JoinCommunityButton } from '@/components/JoinCommunityButton';
-import Post from '@/components/Post';
-import { faker } from '@faker-js/faker';
+import DescriptionLimited from '@/components/DescriptionLimited';
+import DescriptionFull from '@/components/DescriptionFull';
+import CommunityPageContent from '@/components/CommunityPageContent';
+import AdminActions from '@/components/AdminActions';
 
 
 const page = async ({ params }) => {
 
-    faker.seed(123);
     const response = await axios.get(`http://localhost:8000/community/${params.communityId}`);
     const data = response.data.data;
     const posts = data.posts;
     console.log(posts);
-    // console.log(data);
-    // console.log(data.followingUsers);
-
-    // const posts = [
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //     },
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //         attachment: faker.image.url()
-    //     },
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //     },
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //         attachment: faker.image.url()
-    //     },
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //     },
-    //     {
-    //         name: faker.company.name(),
-    //         avatarURL: faker.image.avatar(),
-    //         time: faker.date.anytime(),
-    //         title: faker.lorem.sentence(),
-    //         text: faker.lorem.paragraph(),
-    //         attachment: faker.image.url()
-    //     },
-    // ]
-
     return (
         <div className='flex justify-center w-full h-full py-4'>
 
@@ -91,9 +41,7 @@ const page = async ({ params }) => {
                     <div className='flex flex-col w-full gap-2'>
 
                         {/* Description */}
-                        <div className='flex items-center justify-center w-full p-4 text-center'>
-                            <span className='text-lg font-semibold leading-8 line-clamp-4'>{data.description}</span>
-                        </div>
+                        <DescriptionLimited description={data.description} />
 
                         <div className='flex items-center self-end gap-8 px-4'>
 
@@ -111,31 +59,27 @@ const page = async ({ params }) => {
                                 <JoinCommunityButton communityId={data.communityId} adminId={data.adminId} />
                             </div>
 
+                            {/* Admin Actions */}
+
+                            <div>
+                                <AdminActions adminId={data.adminId} communityId={params.communityId} />
+
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
 
-                {/* Posts */}
+                {/* Content */}
+
+                <CommunityPageContent posts={data.posts} events={data.events} />
 
 
-                <div className="flex flex-col items-center w-full gap-6">
-
-
-                    {
-                        posts.length > 0 ?
-                            posts.map((post) => {
-                                return (
-                                    <Post key={post.title} id={post._id} name={post.userId.username} avatarURL={post.userId.avatarURL} time={new Date(post.createdAt).toDateString()} title={post.title} body={post.body} attachmentURL={post.attachmentURL} numLikes={post.numLikes} numComments={post.numComments} likedUserIds={post.likedUserIds} />
-                                )
-                            })
-                            :
-                            <span>There are no posts yet.</span>
-                    }
-
-                </div>
             </div>
+
+            <DescriptionFull description={data.description} />
 
         </div>
 

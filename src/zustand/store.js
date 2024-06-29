@@ -29,3 +29,17 @@ export const communityListStore = create(
         }
     )
 );
+
+export const descriptionStore = create(
+    (set, get) => ({
+        open: false,
+        toggle: () => set({ open: !get().open })
+    })
+);
+
+export const eventStore = create(
+    (set, get) => ({
+        communityId: null,
+        setCommunityId: (communityId) => set({ communityId: communityId })
+    })
+);

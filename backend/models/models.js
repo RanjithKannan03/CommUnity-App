@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     likedPosts: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
         default: []
+    },
+    participatingEventIds: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+        default: []
     }
 }, { timestamps: true });
 
@@ -70,7 +74,7 @@ const postsSchema = new mongoose.Schema({
         default: []
     },
     commentIds: {
-        type: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
+        type: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
         default: []
     }
 }, { timestamps: true });
@@ -82,14 +86,47 @@ const commentSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    date: {
-        type: Date,
-        default: Date.now()
+    postId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
     },
     text: String
 }, { timestamps: true });
 
 export const Comments = mongoose.model('Comment', commentSchema);
+
+const eventScheme = new mongoose.Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    communityId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Community'
+    },
+    title: String,
+    description: String,
+    attachmentURL: {
+        type: String,
+        default: ""
+    },
+    participatingUserids: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        default: []
+    },
+    likedUserIds: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        default: []
+    },
+    eventDate: {
+        type: Date
+    },
+    lastDate: {
+        type: Date
+    }
+}, { timestamps: true });
+
+export const Events = mongoose.model('Event', eventScheme);
 
 
 

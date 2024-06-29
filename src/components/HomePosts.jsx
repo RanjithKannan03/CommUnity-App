@@ -33,14 +33,14 @@ const HomePosts = () => {
     }, [])
 
     return (
-        <div className="flex flex-col items-center w-full gap-6">
+        <div className="flex flex-col items-center w-full gap-6 ">
 
             {
                 posts.length > 0 ?
                     (
                         posts.map((post) => {
                             return (
-                                <FeedPost key={post.title} id={post._id} name={post.userId.username} avatarURL={post.userId.avatarURL} time={new Date(post.createdAt).toDateString()} title={post.title} body={post.body} attachmentURL={post.attachmentURL} numLikes={post.numLikes} numComments={post.numComments} />
+                                <FeedPost key={post.title} id={post._id} name={post.userId.username} avatarURL={post.userId.avatarURL} time={new Date(post.createdAt).toDateString()} title={post.title} body={post.body} attachmentURL={post.attachmentURL} numLikes={post.numLikes} numComments={post.numComments} commentIds={post.commentIds} />
                             )
                         })
                     )

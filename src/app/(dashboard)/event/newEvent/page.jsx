@@ -5,13 +5,18 @@ import Image from 'next/image';
 import { SlTrash } from "react-icons/sl";
 import FormSubmitButton from '@/components/FormSubmitButton';
 import { useFormState } from 'react-dom';
-import { createPost } from '@/lib/post';
-import CommunitySelectDropdown from '@/components/CommunitySelectDropdown';
+import { createEvent } from '@/lib/events';
+import { eventStore } from '@/zustand/store';
+import { DatePicker } from '@/components/ui/DatePicker';
+import CustomEditor from '@/components/CustomEditor';
+
 
 const page = () => {
     const [pickedImage, setpickedImage] = useState();
-    const [state, formAction] = useFormState(createPost, { error: null, user: null });
-    const [selectedCommunity, setSelectedCommunity] = useState(null);
+    const [state, formAction] = useFormState(createEvent, { error: null, user: null });
+    const communityId = eventStore((state) => state.communityId);
+    const [eventDate, setEventDate] = useState();
+    const [lastdate, setLastDate] = useState();
 
 
     function handleImageChange(event) {
@@ -42,24 +47,26 @@ const page = () => {
         const transformations = `w_120,q_${config.quality}`;
         return `${urlStart}upload/${transformations}/${urlEnd}`;
     }
-
     return (
-        <div className='flex items-center justify-center flex-1 py-4'>
-
-            <form className='w-full md:w-[80%] lg:w-[65%] xl:w-[40%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] p-6' action={formAction}>
+        <div className='flex justify-center flex-1 h-screen py-4'>
 
 
-                <span className='text-2xl font-semibold'>Create a post</span>
+            <form className='w-full md:w-[80%] lg:w-[65%] xl:w-[40%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] px-6' action={formAction}>
+
+                <span className='text-2xl font-semibold'>Create an Event</span>
+
 
                 {
                     state.error && (<span className='text-black dark:text-white'>{state.error}</span>)
                 }
 
-                <input type='text' hidden name='communityId' value={selectedCommunity?._id} />
 
-                <div className='w-full'>
-                    <CommunitySelectDropdown selectedCommunity={selectedCommunity} setSelectedCommunity={setSelectedCommunity} />
-                </div>
+                <input type='text' name='communityId' value={communityId} hidden />
+
+                <input type='text' name='eventDate' value={eventDate} hidden />
+
+                <input type='text' name='lastDate' value={lastdate} hidden />
+
 
 
 
@@ -100,18 +107,43 @@ const page = () => {
 
                 <div className='flex flex-col w-full gap-2'>
 
-                    <span className='self-start text-lg'>Body :</span>
+                    <span className='self-start text-lg'>Description :</span>
 
-                    <textarea placeholder='Body' name='body' className="flex min-h-[60px] w-full rounded-xl border border-gray-500 dark:border-white bg-transparent px-3 py-2 shadow-sm placeholder:text-gray-400" />
+                    <textarea placeholder='Description' name='description' className="flex min-h-[60px] w-full rounded-xl border border-gray-500 dark:border-white bg-transparent px-3 py-2 shadow-sm placeholder:text-gray-400" />
+                    {/* <CustomEditor body={body} setBody={setBody} /> */}
 
                 </div>
 
-                <FormSubmitButton text='Post' />
+
+
+                <div className='flex flex-col w-full gap-2'>
+
+                    <span className='self-start text-lg'>Event Date :</span>
+
+                    <DatePicker date={eventDate} setDate={setEventDate} />
+
+                </div>
+
+                <div className='flex flex-col w-full gap-2'>
+
+                    <span className='self-start text-lg'>Last Date to Apply :</span>
+
+                    <DatePicker date={lastdate} setDate={setLastDate} />
+
+                </div>
+
+                <FormSubmitButton text='Create' />
+
+
 
 
 
 
             </form>
+
+
+
+
 
 
         </div>
