@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { faker } from '@faker-js/faker';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SignOut } from './Icons';
 import ToggleDark from './ToggleDark';
+import { userStore } from '@/zustand/store';
+import { logout } from '@/lib/auth';
 
 const cardVariant = {
     close: {
@@ -19,12 +20,21 @@ const cardVariant = {
 };
 
 const Avatar = () => {
-    faker.seed(123);
+    const user = userStore((state) => state.user);
+    const logoutUser = userStore((state) => state.logoutUser);
     const [isOpen, setIsOpen] = useState(false);
+
+    async function signOut() {
+        if (await logout()) {
+            logoutUser();
+            window.location.reload();
+        }
+    }
+
     return (
         <>
             <button className='relative w-10 h-10 p-2 rounded-full active:ring-4 active:ring-white' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
-                <Image src={faker.image.avatar()} alt='profile-pic' priority fill sizes='40' className='object-contain rounded-full' />
+                <Image src={user.avatarURL} alt='profile-pic' priority fill sizes='40' className='object-contain rounded-full' />
             </button>
 
             <AnimatePresence>
@@ -35,7 +45,7 @@ const Avatar = () => {
                             <button className='flex items-center w-full gap-4 px-4 py-2 hover:bg-zinc-100' type='button'>
 
                                 <div className='relative w-10 h-10 p-2'>
-                                    <Image src={faker.image.avatar()} alt='profile-pic' fill sizes='40' className='object-contain rounded-full' />
+                                    <Image src={user.avatarURL} alt='profile-pic' fill sizes='40' className='object-contain rounded-full' />
                                 </div>
 
                                 <div className='flex flex-col text-start'>
@@ -43,7 +53,7 @@ const Avatar = () => {
                                     <span className='text-black'>View Profile</span>
 
                                     {/* username */}
-                                    <span className='text-[#8A9BA1] font-light text-sm'>{faker.internet.displayName()}</span>
+                                    <span className='text-sm text-black'>{user.username}</span>
                                 </div>
 
 
@@ -54,7 +64,7 @@ const Avatar = () => {
                             <ToggleDark />
 
                             {/* Logout */}
-                            <button className='flex items-center w-full gap-4 px-4 py-2 text-black hover:bg-zinc-100' type='button'>
+                            <button className='flex items-center w-full gap-4 px-4 py-2 text-black hover:bg-zinc-100' type='button' onClick={signOut}>
                                 <SignOut size={27} />
                                 <span className=''>Log Out</span>
                             </button>

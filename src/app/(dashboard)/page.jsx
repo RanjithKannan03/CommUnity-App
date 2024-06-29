@@ -58,13 +58,7 @@ export default function Home() {
 
         <div className="flex w-full">
           <div className="flex flex-col items-center w-full h-full gap-6">
-            {/* <div className="h-[500px] w-[500px] bg-red-300" />
 
-            <div className="h-[500px] w-[500px] bg-blue-300" />
-
-            <div className="h-[500px] w-[500px] bg-green-300" />
-            <div className="h-[500px] w-[500px] bg-yellow-300" />
-            <div className="h-[500px] w-[500px] bg-orange-300" /> */}
 
             {
               posts.map((post) => {

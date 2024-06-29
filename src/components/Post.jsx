@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React from 'react';
 import { faker } from '@faker-js/faker';
-import { TbArrowBigUp } from "react-icons/tb";
 import { IoChatboxOutline } from "react-icons/io5";
 import { RiShare2Line } from "react-icons/ri";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 const Post = (props) => {
     faker.seed(123);
@@ -50,7 +50,7 @@ const Post = (props) => {
 
                 <button className='bg-[#99E2FF] dark:bg-[#AF1B34] text-black dark:text-white p-2 rounded-full flex gap-2 items-center'>
 
-                    <TbArrowBigUp size={20} />
+                    <IoIosHeartEmpty size={20} />
                     <span>30</span>
                 </button>
 

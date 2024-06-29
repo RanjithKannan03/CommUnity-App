@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { AiFillHome, AiOutlineHome } from "react-icons/ai";
 import { BsArrowUpRightCircle, BsArrowUpRightCircleFill } from "react-icons/bs";
 import Link from 'next/link';
+import FollowingCommunities from './FollowingCommunities';
 
 const SideNav = () => {
 
@@ -26,10 +27,7 @@ const SideNav = () => {
     const path = usePathname();
 
     return (
-        <div className='w-[20%] xl:w-[15%] h-full hidden lg:flex flex-col gap-4 bg-[#FAFAF9] dark:bg-[#1F1F1F] border-[#DBE4E9] p-4'>
-
-            {/* Navlinks */}
-            {/* #F78B8C */}
+        <div className='w-[20%] xl:w-[15%] h-full hidden lg:flex flex-col gap-4 bg-[#FAFAF9] dark:bg-[#1F1F1F] border-[#DBE4E9] px-4 py-8'>
 
             <div className='flex flex-col w-full gap-2'>
 
@@ -49,6 +47,14 @@ const SideNav = () => {
                 }
 
             </div>
+
+            <div className='w-full h-[1px] bg-zinc-200 mt-2' />
+
+            <div className='flex flex-1'>
+                <FollowingCommunities />
+            </div>
+
+
 
         </div>
     )

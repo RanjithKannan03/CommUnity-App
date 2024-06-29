@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTheme } from "next-themes";
 import { motion } from 'framer-motion';
-import { CloudMoon } from './Icons';
+import { FaMoon } from "react-icons/fa";
 
 const ToggleDark = () => {
     const { setTheme, resolvedTheme } = useTheme();
@@ -12,7 +12,7 @@ const ToggleDark = () => {
 
             <div className='flex gap-4 text-black'>
 
-                <CloudMoon size={27} weight='light' />
+                <FaMoon size={27} weight='light' />
                 <span>Dark Mode</span>
 
             </div>

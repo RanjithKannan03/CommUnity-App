@@ -26,3 +26,25 @@
 ::-webkit-scrollbar:horizontal {
   display: none;
 }
+
+/* For modern browsers */
+#floating_outlined_email:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  /* Change the color to match your background */
+}
+
+#floating_outlined_username:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  /* Change the color to match your background */
+}
+
+/* For Safari */
+#floating_outlined_email:-webkit-autofill {
+  -webkit-text-fill-color: #333;
+  /* Change the text color to ensure it's visible */
+}
+
+#floating_outlined_username:-webkit-autofill {
+  -webkit-text-fill-color: #333;
+  /* Change the text color to ensure it's visible */
+}
