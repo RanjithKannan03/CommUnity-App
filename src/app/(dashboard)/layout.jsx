@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
               <div className="h-[calc(100vh-5rem)] bg-[#FFFFFF] dark:bg-[#141414] w-full flex">
                 {/* Side nav */}
                 <SideNav />
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 px-4 overflow-hidden md:px-8">
                   {children}
                 </div>
               </div>

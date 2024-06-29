@@ -19,7 +19,9 @@ export const communityListStore = create(
     persist(
         (set, get) => ({
             open: false,
-            toggle: () => set({ open: !get().open })
+            toggle: () => set({ open: !get().open }),
+            followingCommunities: null,
+            setFollowingCommunities: (communities) => set({ followingCommunities: communities })
         }),
         {
             name: 'user-storage', // name of the item in the storage (must be unique)

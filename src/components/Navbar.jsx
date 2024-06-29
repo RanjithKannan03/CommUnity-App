@@ -24,7 +24,7 @@ const Navbar = () => {
         },
         {
             name: "Create Post",
-            href: '/newPost',
+            href: '/post/newPost',
             icon: <Plus size={32} />,
             text: "Create"
         }

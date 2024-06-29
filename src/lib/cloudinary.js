@@ -46,3 +46,17 @@ export async function uploadImages(formData) {
         bannerURL: bannerResult.secure_url
     }
 }
+
+export async function uploadImagesPost(formData) {
+    const image = formData.get('attachment');
+
+    const imageData = await image.arrayBuffer();
+    const mime = image.type;
+    const encoding = 'base64';
+    const base64Data = Buffer.from(imageData).toString('base64');
+    const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
+    const result = await cloudinary.uploader.upload(fileUri, {
+        folder: 'CommUnity',
+    });
+    return result.secure_url;
+}

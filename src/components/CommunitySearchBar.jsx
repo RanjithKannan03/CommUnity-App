@@ -31,17 +31,17 @@ const CommunitySearchBar = () => {
 
     return (
         <motion.div
-            transition={{ duration: 0.5, when: 'afterChildren' }} className={`relative items-center hidden gap-2 p-2 text-black shadow-2xl drop-shadow-2xl ${result.length > 0 ? 'rounded-t-xl' : 'rounded-full'} md:flex lg:w-1/3 bg-zinc-100`}>
+            transition={{ duration: 0.5, when: 'afterChildren' }} className={`relative items-center hidden gap-2 p-2 text-black shadow-2xl drop-shadow-2xl z-50 ${query ? 'rounded-t-xl' : 'rounded-full'} md:flex lg:w-1/3 bg-zinc-100`}>
             <MagnifyingGlass size={25} />
             <input className='px-2 bg-transparent lg:flex-1 focus:outline-none focus:ring-0' placeholder='Search CommUnity' type='text' autoComplete='off' value={query} onChange={handleChange} />
 
             <AnimatePresence>
                 {
-                    result.length > 0 &&
+                    query &&
                     (
-                        <motion.div initial={{ height: 0 }} animate={{ height: 300 }} exit={{ height: 0 }} className='absolute z-50 left-0 w-full text-black h-[300px] hidden shadow-2xl drop-shadow-2xl rounded-b-xl md:flex bg-zinc-100 top-full flex-col items-center overflow-y-auto'>
+                        <motion.div initial={{ height: 0 }} animate={{ height: 300 }} exit={{ height: 0 }} className='absolute z-30 left-0 w-full text-black h-[300px] hidden shadow-2xl drop-shadow-2xl rounded-b-xl md:flex bg-zinc-100 top-full flex-col items-center overflow-y-auto'>
 
-                            <div className='flex flex-col items-center w-full gap-2'>
+                            <div className='flex flex-col items-center w-full gap-2 relative z-[50]'>
 
                                 {result.map((community) => {
                                     return (

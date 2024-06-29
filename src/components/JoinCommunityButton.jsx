@@ -2,35 +2,54 @@
 
 import React, { useOptimistic } from 'react';
 import { userStore } from '@/zustand/store';
-import { joinCommunity } from '@/lib/community';
+import { joinCommunity, leaveCommunity } from '@/lib/community';
 
 export const JoinCommunityButton = (props) => {
     const user = userStore((state) => state.user);
-    const [optimisticCommunityIds, updateOptimisticCommunityIds] = useOptimistic(user.followingCommunityIDs, (prevCommunityIds, communityId) => {
-        return [...prevCommunityIds, communityId];
+    const [optimisticCommunityIds, updateOptimisticCommunityIds] = useOptimistic(user.followingCommunityIDs, (prevCommunityIds, communityId, action) => {
+        if (action === 'join') {
+            return [...prevCommunityIds, communityId];
+        }
+        else {
+            return prevCommunityIds.filter(id => id !== communityId);
+        }
     });
 
     async function handleJoin() {
-        updateOptimisticCommunityIds(props.communityId);
+        updateOptimisticCommunityIds(props.communityId, 'join');
         await joinCommunity(props.communityId);
+    }
+
+    async function handleLeave() {
+        updateOptimisticCommunityIds(props.communityId, 'leave');
+        await leaveCommunity(props.communityId);
     }
 
     return (
         <>
             {
-                optimisticCommunityIds.includes(props.communityId) ? (
+                props.adminId === user.id ?
                     <div className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white'>
 
-                        <span>Joined</span>
+                        <span>You are the admin</span>
 
-                    </div>)
+                    </div>
                     :
                     (
-                        <form className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white' action={handleJoin}>
+                        optimisticCommunityIds.includes(props.communityId) ? (
+                            <form className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white' action={handleLeave}>
 
-                            <button type='submit'>Join</button>
+                                <button type='submit'>Joined</button>
 
-                        </form>
+                            </form>)
+                            :
+                            (
+                                <form className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white' action={handleJoin}>
+
+                                    <button type='submit'>Join</button>
+
+                                </form>
+                            )
                     )
             }
         </>

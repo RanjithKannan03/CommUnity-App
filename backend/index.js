@@ -206,7 +206,6 @@ app.post('/followingCommunityDetails', async (req, res) => {
     const userID = req.body.id;
     try {
         const user = await User.findById(userID).select('communityIDs').populate('communityIDs').exec();
-        console.log(user);
         if (!user) {
             throw new Error('User not found');
         }
@@ -256,11 +255,9 @@ app.post('/joinCommunity', async (req, res) => {
             { new: true });
 
         if (req.user && req.user._id === userID) {
-            console.log('hi');
             req.user.communityIDs = updatedUser.communityIDs;
         }
 
-        console.log(req.user);
 
         const updatedCommunity = await Community.findByIdAndUpdate(communityId,
             { $push: { followingUserIDs: userID } },
@@ -275,7 +272,41 @@ app.post('/joinCommunity', async (req, res) => {
             followingCommunityIDs: req.user.communityIDs,
             likedPosts: req.user.likedPosts
         };
-        console.log(user);
+        return res.status(200).json({ message: 'success', user: user });
+
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/leaveCommunity', async (req, res) => {
+    const userID = req.user._id;
+    const communityId = req.body.communityId;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userID,
+            { $pull: { communityIDs: communityId } },
+            { new: true });
+
+        if (req.user && req.user._id === userID) {
+            req.user.communityIDs = updatedUser.communityIDs;
+        }
+
+
+        const updatedCommunity = await Community.findByIdAndUpdate(communityId,
+            { $pull: { followingUserIDs: userID } },
+            { new: true }
+        );
+
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            likedPosts: req.user.likedPosts
+        };
         return res.status(200).json({ message: 'success', user: user });
 
     }
@@ -290,8 +321,6 @@ app.get('/search', async (req, res) => {
     var i = 0;
     try {
         const result = await Community.find({ name: { $regex: query, $options: 'i' } });
-        console.log(i++);
-        console.log(result);
         res.status(200).json({ result: result });
     }
     catch (e) {
@@ -299,6 +328,124 @@ app.get('/search', async (req, res) => {
         return res.status(500).json({ message: "Please try again later." });
     }
 });
+
+app.post('/createPost', async (req, res) => {
+    const userId = req.user._id;
+    console.log(req.user);
+    const title = req.body.title;
+    const body = req.body.body;
+    const communityId = req.body.communityId;
+    const attachmentURL = req.body.attachmentURL
+
+    const post = {
+        title: title,
+        communityId: communityId,
+        userId: userId,
+        body: body
+    };
+
+    if (attachmentURL) {
+        post.attachmentURL = attachmentURL;
+    }
+
+    try {
+        const newPost = new Posts(post);
+        await newPost.save();
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+})
+
+app.get('/home', async (req, res) => {
+    const userId = req.user._id;
+    const communityIds = req.user.communityIDs;
+    console.log(communityIds);
+    try {
+        // const posts = await Posts.aggregate([
+        //     { $match: { communityId: { $in: communityIds } } },
+        //     { $sort: { createdAt: -1 } }
+        // ]).catch(err => console.error(err));
+        const posts = await Posts.find({ communityId: { $in: communityIds } }).populate('userId', '_id username avatarURL').sort({ createdAt: -1 });
+
+        console.log(posts);
+        return res.status(200).json({ posts: posts });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
+
+app.post('/likePost', async (req, res) => {
+    const userId = req.user._id;
+    const postId = req.body.postId;
+
+    try {
+        const updatedPost = await Posts.findByIdAndUpdate(postId,
+            { $push: { likedUserIds: userId } },
+            { new: true }
+        );
+
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            { $push: { likedPosts: postId } },
+            { new: true }
+        );
+        if (req.user && req.user._id === userId) {
+            req.user.likedPosts = updatedUser.likedPosts;
+        }
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            likedPosts: req.user.likedPosts
+        };
+        return res.status(200).json({ message: 'success', user: user });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
+
+app.post('/unlikePost', async (req, res) => {
+    const userId = req.user._id;
+    const postId = req.body.postId;
+
+    try {
+        const updatedPost = await Posts.findByIdAndUpdate(postId,
+            { $pull: { likedUserIds: userId } },
+            { new: true }
+        );
+
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            { $pull: { likedPosts: postId } },
+            { new: true }
+        );
+        if (req.user && req.user._id === userId) {
+            req.user.likedPosts = updatedUser.likedPosts;
+        }
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            likedPosts: req.user.likedPosts
+        };
+        return res.status(200).json({ message: 'success', user: user });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
+
 
 // passport local strategy
 

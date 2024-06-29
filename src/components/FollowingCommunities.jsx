@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import CommunitiesList from './CommunitiesList';
 import ExpandCommunityList from './ExpandCommunityList';
-import { userStore } from '@/zustand/store';
+import { userStore, communityListStore } from '@/zustand/store';
 import axios from 'axios';
 
 const FollowingCommunities = (props) => {
 
     const user = userStore((state) => state.user);
+    const setFollowingCommunities = communityListStore((state) => state.setFollowingCommunities);
     const [communities, setCommunities] = useState([]);
 
     useEffect(() => {
@@ -30,6 +31,7 @@ const FollowingCommunities = (props) => {
         }
         const data = response.data;
         const communities = data.communities;
+        setFollowingCommunities(communities);
         setCommunities(communities);
     }
 

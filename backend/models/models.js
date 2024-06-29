@@ -52,9 +52,27 @@ const postsSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    text: String,
-    attachmentURL: String,
-    numberLikes: Number,
+    body: String,
+    attachmentURL: {
+        type: String,
+        default: ""
+    },
+    numLikes: {
+        type: Number,
+        default: 0
+    },
+    numComments: {
+        type: Number,
+        default: 0
+    },
+    likedUserIds: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        default: []
+    },
+    commentIds: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
+        default: []
+    }
 }, { timestamps: true });
 
 export const Posts = mongoose.model('Post', postsSchema);
