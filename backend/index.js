@@ -7,13 +7,19 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
+import { connect } from 'getstream';
+import { StreamChat } from 'stream-chat';
 
 import { User, Community, Posts, Comments, Events } from './models/models.js';
-import { uploadImage } from './cloudinary.js';
+
 
 const app = express();
 const port = process.env.PORT || 8000;
 const saltRounds = 10
+
+const app_id = process.env.STREAM_APP_ID;
+const api_key = process.env.STREAM_API_KEY;
+const api_secret = process.env.STREAM_API_SECRET;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -119,6 +125,28 @@ app.get('/isAuthenticated', (req, res) => {
         const user = {
             id: req.user._id,
             email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
+            likedPosts: req.user.likedPosts
+        };
+        return res.status(200).json({ message: true, user: user });
+    }
+    else {
+        return res.status(200).json({ message: false });
+    }
+
+});
+
+app.get('/isAuthenticatedChat', (req, res) => {
+    if (req.isAuthenticated()) {
+        const serverClient = connect(api_key, api_secret, app_id);
+        const token = serverClient.createUserToken(req.user._id);
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            token: token,
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,

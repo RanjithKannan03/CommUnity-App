@@ -8,7 +8,7 @@ import FeedPostLikeButton from './FeedPostLikeButton';
 const FeedPost = (props) => {
 
     return (
-        <div className='flex flex-col w-full lg:w-[65%] items-start p-3 rounded-xl gap-2 hover:bg-[#D7F3FF] dark:hover:bg-[#1F1F1F]'>
+        <div className='flex flex-col w-full lg:w-[65%] items-start p-3 rounded-xl gap-2 hover:bg-[#E8F5FD] dark:hover:bg-[#1F1F1F]'>
 
             <Link className='flex flex-col w-full gap-2' href={`/post/${props.id}`}>
                 {/* Metadata */}

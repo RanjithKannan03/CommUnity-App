@@ -31,7 +31,7 @@ const Navbar = () => {
     ]
 
     return (
-        <div className='flex justify-between items-center bg-[#1DA1F2] dark:bg-[#B43638] w-full h-full py-4 px-4 md:px-8 lg:px-20 xl:px-44 relative'>
+        <div className='flex justify-between items-center bg-[#5B96F7] dark:bg-[#B43638] w-full h-full py-4 px-4 md:px-8 lg:px-20 xl:px-44 relative'>
 
 
             {/* Logo and Name and Burger */}

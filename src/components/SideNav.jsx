@@ -42,7 +42,7 @@ const SideNav = () => {
                 {
                     links.map((link) => {
                         return (
-                            <Link key={link.text} href={link.url} className={`flex w-full gap-4 px-4 py-2 rounded-xl text-black dark:text-white ${path === link.url ? 'bg-[#99E2FF] dark:bg-[#AF1B34]' : 'hover:bg-[#D7F3FF] dark:hover:bg-[#FE686F]'}`}>
+                            <Link key={link.text} href={link.url} className={`flex w-full gap-4 px-4 py-2 rounded-xl text-black dark:text-white ${path === link.url ? 'bg-[#99E2FF] dark:bg-[#AF1B34]' : 'hover:bg-[#E8F5FD] dark:hover:bg-[#FE686F]'}`}>
                                 {
                                     path === link.url ?
                                         link.currentPathIcon :

@@ -43,3 +43,10 @@ export const eventStore = create(
         setCommunityId: (communityId) => set({ communityId: communityId })
     })
 );
+
+export const chatListStore = create(
+    (set, get) => ({
+        open: false,
+        toggle: () => set({ open: !get().open })
+    })
+);

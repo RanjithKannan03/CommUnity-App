@@ -27,6 +27,16 @@
   display: none;
 }
 
+.hide-scrollbar {
+  /* Hide scrollbar for IE, Edge, and Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for WebKit browsers */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* For modern browsers */
 #floating_outlined_email:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset !important;

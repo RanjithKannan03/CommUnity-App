@@ -17,7 +17,7 @@ const ToggleDark = () => {
 
             </div>
 
-            <div className={`w-16 h-8 bg-[#1DA1F2] dark:bg-[#B43638] p-2 rounded-full flex items-center ${resolvedTheme === 'dark' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`w-16 h-8 bg-[#5B96F7] dark:bg-[#B43638] p-2 rounded-full flex items-center ${resolvedTheme === 'dark' ? 'justify-end' : 'justify-start'}`}>
 
                 <motion.button layout className='w-6 h-6 bg-white rounded-full' type='button' onClick={() => { setTheme(() => { return resolvedTheme === 'light' ? 'dark' : 'light' }) }} />
 
