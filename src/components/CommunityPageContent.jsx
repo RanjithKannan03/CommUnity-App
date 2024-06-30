@@ -26,7 +26,7 @@ const CommunityPageContent = ({ posts, events }) => {
             <div className='flex items-center gap-8 w-full lg:w-[65%] p-4'>
                 {options.map((option, index) => {
                     return (
-                        <button key={index} className={`relative ${option.name === type ? 'text-[#99E2FF] dark:text-[#AF1B34]' : 'text-black dark:text-white'}`} onClick={() => { setType(option.name) }}>
+                        <button type='button' key={index} className={`relative ${option.name === type ? 'text-[#99E2FF] dark:text-[#AF1B34]' : 'text-black dark:text-white'}`} onClick={() => { setType(option.name) }}>
                             <span>{option.name}</span>
                             {
                                 option.name === type ?

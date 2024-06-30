@@ -8,7 +8,10 @@ import { useFormState } from 'react-dom';
 import { createEvent } from '@/lib/events';
 import { eventStore } from '@/zustand/store';
 import { DatePicker } from '@/components/ui/DatePicker';
-import CustomEditor from '@/components/CustomEditor';
+import dynamic from 'next/dynamic'
+const CustomEditor = dynamic(() => import('@/components/CKEditorComponent'), {
+    ssr: false
+})
 
 
 const page = () => {
@@ -17,6 +20,8 @@ const page = () => {
     const communityId = eventStore((state) => state.communityId);
     const [eventDate, setEventDate] = useState();
     const [lastdate, setLastDate] = useState();
+
+    const [data, setData] = useState("<p>Enter description</p>")
 
 
     function handleImageChange(event) {
@@ -48,10 +53,10 @@ const page = () => {
         return `${urlStart}upload/${transformations}/${urlEnd}`;
     }
     return (
-        <div className='flex justify-center flex-1 h-screen py-4'>
+        <div className='flex justify-center flex-1 py-4'>
 
 
-            <form className='w-full md:w-[80%] lg:w-[65%] xl:w-[40%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] px-6' action={formAction}>
+            <form className='w-full lg:w-[70%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] p-6' action={formAction}>
 
                 <span className='text-2xl font-semibold'>Create an Event</span>
 
@@ -66,6 +71,8 @@ const page = () => {
                 <input type='text' name='eventDate' value={eventDate} hidden />
 
                 <input type='text' name='lastDate' value={lastdate} hidden />
+
+                <input type='text' name='description' value={data} hidden />
 
 
 
@@ -109,8 +116,8 @@ const page = () => {
 
                     <span className='self-start text-lg'>Description :</span>
 
-                    <textarea placeholder='Description' name='description' className="flex min-h-[60px] w-full rounded-xl border border-gray-500 dark:border-white bg-transparent px-3 py-2 shadow-sm placeholder:text-gray-400" />
-                    {/* <CustomEditor body={body} setBody={setBody} /> */}
+
+                    <CustomEditor onChange={setData} editorData={data} />
 
                 </div>
 

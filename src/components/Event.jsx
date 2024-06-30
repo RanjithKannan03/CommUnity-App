@@ -36,7 +36,7 @@ const Event = (props) => {
                             </div>
                         )
                         :
-                        <span className='text-black dark:text-white line-clamp-4'>{props.description}</span>
+                        <div className='text-black dark:text-white line-clamp-4' dangerouslySetInnerHTML={{ __html: props.description }}></div>
                 }
             </Link>
 

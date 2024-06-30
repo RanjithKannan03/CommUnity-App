@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="flex justify-center flex-1 py-4">
 
-      <div className="flex flex-col items-center w-full h-screen">
+      <div className="flex flex-col items-center w-full h-[calc(100vh-5rem)]">
 
         <div className="flex flex-col w-full py-4">
 

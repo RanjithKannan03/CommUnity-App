@@ -122,6 +122,7 @@ app.get('/isAuthenticated', (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: true, user: user });
@@ -190,6 +191,7 @@ app.post('/createCommunity', async (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: 'success', user: user });
@@ -272,6 +274,7 @@ app.post('/joinCommunity', async (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: 'success', user: user });
@@ -307,6 +310,7 @@ app.post('/leaveCommunity', async (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: 'success', user: user });
@@ -403,6 +407,7 @@ app.post('/likePost', async (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: 'success', user: user });
@@ -436,6 +441,7 @@ app.post('/unlikePost', async (req, res) => {
             username: req.user.username,
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
             likedPosts: req.user.likedPosts
         };
         return res.status(200).json({ message: 'success', user: user });
@@ -609,6 +615,72 @@ app.post('/unlikeEvent', async (req, res) => {
         return res.status(500).json({ message: "Please try again later." });
     }
 });
+
+
+app.get('/event', async (req, res) => {
+    const eventId = req.query.eventId;
+
+    try {
+        const event = await Events.findById(eventId).populate('participatingUserids').populate('communityId', '_id logoURL name adminId');
+        return res.status(200).json({ message: 'success', event: event });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+})
+
+app.post('/registerEvent', async (req, res) => {
+    const eventId = req.body.eventId;
+    const userId = req.user._id;
+    console.log(eventId);
+    try {
+        const updatedEvent = await Events.findByIdAndUpdate(eventId,
+            { $push: { participatingUserids: userId } },
+            { new: true }
+        );
+
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            { $push: { participatingEventIds: eventId } },
+            { new: true }
+        )
+        if (req.user && req.user._id === userId) {
+            req.user.participatingEventIds = updatedUser.participatingEventIds;
+        }
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
+            likedPosts: req.user.likedPosts
+        };
+        console.log(user);
+
+        return res.status(200).json({ message: 'success', user: user });
+
+
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.get('/eventParticipants', async (req, res) => {
+    const eventId = req.query.eventId;
+    try {
+        const event = await Events.findById(eventId);
+        return res.status(200).json({ message: 'success', data: event.participatingUserids });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
 
 
 // passport local strategy

@@ -1,13 +1,13 @@
 /* Tailwind-based styles for CKEditor content */
 .ck-editor__editable_inline {
-  @apply p-2 border border-gray-300 rounded-lg;
+  @apply p-2 border border-black rounded-lg dark:border-gray-300;
 }
 
 .ck-content p {
   @apply mb-4;
 }
 
-.ck-content h1,
+/* .ck-content h1,
 .ck-content h2,
 .ck-content h3,
 .ck-content h4,
@@ -15,6 +15,10 @@
 .ck-content h6 {
   @apply mb-2 font-bold;
 }
+
+.ck-content h1 {
+  @apply text-4xl;
+} */
 
 /* .ck-content {
   @apply bg-black;
@@ -34,10 +38,10 @@
   border-radius: 0;
 } */
 
-.your-div-class__editor .ck-editor .ck-editor__main .ck-content {
-  @apply bg-transparent resize-y min-h-40;
+.ckeditor-container .ck-editor .ck-editor__main .ck-content {
+  @apply h-[40rem] bg-transparent resize-y dark:focus:border-gray-300 focus:border-black;
 }
 
-.your-div-class__editor .ck-editor {
+.ckeditor-container .ck-editor {
   @apply rounded-xl;
 }
