@@ -4,6 +4,7 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { RiShare2Line } from "react-icons/ri";
 import Link from 'next/link';
 import FeedPostLikeButton from './FeedPostLikeButton';
+import PostUsername from './PostUsername';
 
 const FeedPost = (props) => {
 
@@ -18,10 +19,10 @@ const FeedPost = (props) => {
                     {/* OP Avatar */}
 
                     <div className='relative w-5 h-5'>
-                        <Image src={props.avatarURL} fill sizes='20' className='object-contain rounded-full' alt='community avatar' />
+                        <Image src={props.avatarURL} fill sizes='20' className='object-cover rounded-full' alt='community avatar' />
                     </div>
 
-                    <span className='text-sm text-black dark:text-white'>{props.name}</span>
+                    <PostUsername id={props.userId} username={props.name} />
 
                     <div className='w-1 h-1 bg-black rounded-full dark:bg-white' />
 

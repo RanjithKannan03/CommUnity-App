@@ -33,7 +33,12 @@ const Notifications = () => {
                 if (response.status !== 200) {
                     throw new Error("Please try again later.");
                 } else {
-                    setNotifications(response.data.notifications);
+                    if (response.data.message != "success") {
+                        window.location.reload();
+                    }
+                    else {
+                        setNotifications(response.data.notifications);
+                    }
                 }
             } catch (error) {
                 console.error(error);

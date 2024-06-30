@@ -39,7 +39,7 @@ export const JoinCommunityButton = (props) => {
                         optimisticCommunityIds.includes(props.communityId) ? (
                             <form className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white' action={handleLeave}>
 
-                                <button type='submit'>Joined</button>
+                                <button type='submit'>Leave</button>
 
                             </form>)
                             :

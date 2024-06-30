@@ -1,6 +1,7 @@
 'use client';
 
 import { userStore } from "@/zustand/store";
+import { uploadImagesPost } from "./cloudinary";
 
 export function getUser() {
     'use client';

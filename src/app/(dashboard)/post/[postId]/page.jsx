@@ -7,6 +7,7 @@ import { IoChatboxOutline } from "react-icons/io5";
 import ImageWithLoader from '@/components/ImageWithLoader';
 import NewCommentForm from '@/components/NewCommentForm';
 import Comment from '@/components/Comment';
+import PostUsername from '@/components/PostUsername';
 
 const page = async ({ params }) => {
     const post = await getPost(params.postId);
@@ -36,7 +37,7 @@ const page = async ({ params }) => {
                             <ImageWithLoader url={post.userId.avatarURL} />
                         </div>
 
-                        <span className='text-sm text-black dark:text-white'>{post.userId.username}</span>
+                        <PostUsername id={post.userId._id} username={post.userId.username} />
 
                         <div className='w-1 h-1 bg-black rounded-full dark:bg-white' />
 

@@ -724,17 +724,23 @@ app.get('/eventParticipants', async (req, res) => {
 });
 
 app.get('/notifications', async (req, res) => {
-    const userId = req.user._id;
-    try {
-        const notifications = await Notifications.find({ userId: userId }).populate("merchantId", "_id username avatarURL").populate("communityId", "_id name").sort({ createdAt: -1 });
-        console.log("Notifications");
-        console.log(notifications);
-        return res.status(200).json({ message: 'success', notifications: notifications });
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        try {
+            const notifications = await Notifications.find({ userId: userId }).populate("merchantId", "_id username avatarURL").populate("communityId", "_id name").sort({ createdAt: -1 });
+            console.log("Notifications");
+            console.log(notifications);
+            return res.status(200).json({ message: 'success', notifications: notifications });
+        }
+        catch (e) {
+            console.log(e);
+            return res.status(500).json({ message: "Please try again later." });
+        }
     }
-    catch (e) {
-        console.log(e);
-        return res.status(500).json({ message: "Please try again later." });
+    else {
+        return res.status(200).json({ message: 'session expired' });
     }
+
 });
 
 app.post('/deleteNotification', async (req, res) => {
@@ -849,6 +855,57 @@ app.post('/createItem', async (req, res) => {
 
 
 });
+
+app.post('/editAvatar', async (req, res) => {
+    const newAvatarURL = req.body.avatarURL;
+    const userId = req.user._id;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            {
+                avatarURL: newAvatarURL
+            },
+            { new: true }
+        );
+        if (req.user && req.user._id === userId) {
+            req.user.avatarURL = updatedUser.avatarURL;
+        }
+        const user = {
+            id: req.user._id,
+            email: req.user.email,
+            username: req.user.username,
+            avatarURL: req.user.avatarURL,
+            followingCommunityIDs: req.user.communityIDs,
+            participatingEventIds: req.user.participatingEventIds,
+            likedPosts: req.user.likedPosts
+        };
+        return res.status(200).json({ message: 'success', user: user });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.get('/profile', async (req, res) => {
+    const userId = req.query.userId;
+    console.log(userId);
+    try {
+        const user = await User.findById(userId).populate('communityIDs');
+        console.log(user);
+        const data = {
+            id: user._id,
+            username: user.username,
+            avatarURL: user.avatarURL,
+            email: user.email,
+            communities: user.communityIDs
+        };
+        return res.status(200).json({ message: 'success', data: data });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+})
 
 
 // passport local strategy

@@ -1,5 +1,6 @@
 import React from 'react';
 import ImageWithLoader from './ImageWithLoader';
+import CommentUsername from './CommentUsername';
 
 const Comment = ({ comment }) => {
     return (
@@ -12,8 +13,7 @@ const Comment = ({ comment }) => {
                 <div className='relative w-5 h-5'>
                     <ImageWithLoader url={comment.userId.avatarURL} />
                 </div>
-
-                <span className='text-sm text-black dark:text-white'>{comment.userId.username}</span>
+                <CommentUsername id={comment.userId._id} username={comment.userId.username} />
 
                 <div className='w-1 h-1 bg-black rounded-full dark:bg-white' />
 

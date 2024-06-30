@@ -8,6 +8,7 @@ import { BsArrowUpRightCircle, BsArrowUpRightCircleFill, BsChatDots, BsChatDotsF
 import { HiPlus } from "react-icons/hi2"
 import Link from 'next/link';
 import FollowingCommunities from './FollowingCommunities';
+import CommunitySearchBar from './CommunitySearchBar';
 
 const topDivVariant = {
     close: {
@@ -59,12 +60,6 @@ const MobileMenu = () => {
             currentPathIcon: <AiFillHome size={25} />,
             icon: <AiOutlineHome size={25} />,
             url: '/'
-        },
-        {
-            text: 'Popular',
-            currentPathIcon: <BsArrowUpRightCircleFill size={25} />,
-            icon: <BsArrowUpRightCircle size={25} />,
-            url: '/popular'
         },
         {
             text: 'Chat',
@@ -132,9 +127,15 @@ const MobileMenu = () => {
 
                             </div>
 
+
+
                             <div className='flex flex-1'>
                                 <FollowingCommunities />
                             </div>
+
+                            <CommunitySearchBar />
+
+
 
                         </motion.div>
                     </div>

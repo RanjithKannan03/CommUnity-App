@@ -10,7 +10,7 @@ const CommunityPosts = ({ posts }) => {
                 posts.length > 0 ?
                     posts.map((post) => {
                         return (
-                            <Post key={post.title} id={post._id} name={post.userId.username} avatarURL={post.userId.avatarURL} time={new Date(post.createdAt)} title={post.title} body={post.body} attachmentURL={post.attachmentURL} numLikes={post.numLikes} numComments={post.numComments} likedUserIds={post.likedUserIds} commentIds={post.commentIds} />
+                            <Post key={post.title} id={post._id} userId={post.userId._id} name={post.userId.username} avatarURL={post.userId.avatarURL} time={new Date(post.createdAt)} title={post.title} body={post.body} attachmentURL={post.attachmentURL} numLikes={post.numLikes} numComments={post.numComments} likedUserIds={post.likedUserIds} commentIds={post.commentIds} />
                         )
                     })
                     :

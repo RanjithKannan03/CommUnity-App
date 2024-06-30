@@ -4,6 +4,7 @@ import { IoChatboxOutline } from "react-icons/io5";
 import { RiShare2Line } from "react-icons/ri";
 import PostLikeButton from './PostLikeButton';
 import Link from 'next/link';
+import PostUsername from './PostUsername';
 
 const Post = (props) => {
 
@@ -13,21 +14,21 @@ const Post = (props) => {
             <Link className='flex flex-col w-full gap-2' href={`/post/${props.id}`}>
                 {/* Metadata */}
 
-                <div className='flex items-center w-full gap-2'>
+                <Link className='flex items-center w-full gap-2' href={`/profile/${props.userId}`}>
 
                     {/* OP Avatar */}
 
                     <div className='relative w-5 h-5'>
-                        <Image src={props.avatarURL} fill sizes='20' className='object-contain rounded-full' alt='community avatar' />
+                        <Image src={props.avatarURL} fill sizes='20' className='object-cover rounded-full' alt='community avatar' />
                     </div>
 
-                    <span className='text-sm text-black dark:text-white'>{props.name}</span>
+                    <PostUsername id={props.userId} username={props.name} />
 
                     <div className='w-1 h-1 bg-black rounded-full dark:bg-white' />
 
                     <span className='text-sm text-black dark:text-white'>{props.time.toLocaleString()}</span>
 
-                </div>
+                </Link>
 
                 {/* Title */}
 

@@ -19,12 +19,6 @@ const SideNav = () => {
             url: '/'
         },
         {
-            text: 'Popular',
-            currentPathIcon: <BsArrowUpRightCircleFill size={25} />,
-            icon: <BsArrowUpRightCircle size={25} />,
-            url: '/popular'
-        },
-        {
             text: 'Create a community',
             currentPathIcon: <HiOutlinePlus size={25} />,
             icon: <HiOutlinePlus size={25} />,
