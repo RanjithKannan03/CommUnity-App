@@ -10,7 +10,7 @@ const CommunityEvents = ({ events }) => {
                 events.length > 0 ?
                     events.map((event) => {
                         return (
-                            <Event key={event.title} id={event._id} name={event.userId.username} avatarURL={event.userId.avatarURL} time={new Date(event.createdAt)} title={event.title} description={event.description} attachmentURL={event.attachmentURL} numLikes={event.numLikes} likedUserIds={event.likedUserIds} />
+                            <Event key={event._id} id={event._id} name={event.userId.username} avatarURL={event.userId.avatarURL} time={new Date(event.createdAt)} title={event.title} description={event.description} attachmentURL={event.attachmentURL} numLikes={event.numLikes} likedUserIds={event.likedUserIds} />
                         )
                     })
                     :

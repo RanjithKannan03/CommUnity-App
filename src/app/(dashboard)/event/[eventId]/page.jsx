@@ -13,9 +13,9 @@ const page = async ({ params }) => {
     const event = await getEvent(params.eventId);
 
     return (
-        <div className='flex w-full h-[calc(100vh-5rem)] py-10 lg:justify-around'>
+        <div className='flex flex-col lg:flex-row w-full h-[calc(100vh-5rem)] py-10 lg:justify-between lg:gap-4'>
 
-            <div className='flex flex-col items-center w-3/4 gap-8 pb-20 overflow-y-auto'>
+            <div className='flex flex-col items-center w-full gap-8 pb-10 lg:overflow-y-auto lg:w-3/4'>
                 {/* Event */}
                 <div className='flex flex-col w-full lg:w-[90%] items-start p-3 rounded-xl gap-2 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
 
@@ -75,11 +75,11 @@ const page = async ({ params }) => {
 
             </div>
 
-            <div className='flex-col items-center justify-start hidden w-1/4 h-full gap-4 lg:flex'>
+            <div className='grid items-center justify-start w-full h-full grid-cols-2 gap-4 pb-20 lg:pb-0 lg:flex lg:flex-col lg:w-1/4'>
 
                 {/* Event Date */}
 
-                <div className='flex flex-col w-full p-4 rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
+                <div className='flex flex-col w-full h-full lg:h-auto p-4 rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
 
                     <div className='flex flex-col w-full gap-2'>
                         <span className='text-2xl'>Event Date:</span>
@@ -97,7 +97,7 @@ const page = async ({ params }) => {
 
                 {/* Last date */}
 
-                <div className='flex flex-col w-full p-4 rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
+                <div className='flex flex-col h-full lg:h-auto w-full p-4 rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
 
                     <div className='flex flex-col w-full gap-2'>
                         <span className='text-2xl'>Register Before:</span>
@@ -119,7 +119,7 @@ const page = async ({ params }) => {
 
                 {/* Buttons */}
 
-                <div className={`flex flex-col p-4 w-full rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F] ${event.communityId.adminId === event.userId ? 'flex-1 overflow-hidden' : ''}`}>
+                <div className={`flex flex-col p-4 col-span-2 w-full rounded-xl gap-4 bg-[#D7F3FF] dark:bg-[#1F1F1F] ${event.communityId.adminId === event.userId ? 'lg:flex-1 h-[15rem] overflow-hidden' : ''}`}>
 
                     <EventNumRegister event={event} />
 
