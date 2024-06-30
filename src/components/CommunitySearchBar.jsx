@@ -45,7 +45,7 @@ const CommunitySearchBar = () => {
 
                                 {result.map((community) => {
                                     return (
-                                        <Link className='flex flex-col w-full gap-2 px-4' href={`/community/${community._id}`} onClick={() => {
+                                        <Link key={community._id} className='flex flex-col w-full gap-2 px-4' href={`/community/${community._id}`} onClick={() => {
                                             setQuery('');
                                             setResult([]);
                                         }}>

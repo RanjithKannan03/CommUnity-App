@@ -80,9 +80,9 @@ const NewChat = (props) => {
                             <div className='flex flex-col w-full gap-4'>
 
                                 {
-                                    users.map((user) => {
+                                    users.map((user, index) => {
                                         return (
-                                            <SearchChat client={user} createChannel={createChannel} />
+                                            <SearchChat key={index} client={user} createChannel={createChannel} />
                                         )
                                     })
                                 }

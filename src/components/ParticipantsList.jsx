@@ -10,7 +10,7 @@ const ParticipantsList = ({ participants }) => {
                 {
                     participants.map((participant) => {
                         return (
-                            <div className='flex justify-between w-full'>
+                            <div key={participant._id} className='flex justify-between w-full'>
                                 <Participant participant={participant} />
                             </div>
                         )

@@ -57,7 +57,7 @@ const Navbar = () => {
                 {
                     links.map((link) => {
                         return (
-                            <TooltipProvider>
+                            <TooltipProvider key={link.name}>
                                 <Tooltip>
                                     <TooltipTrigger>
                                         <Link key={link.name} href={link.href} className='hidden md:flex items-center p-2 rounded-full gap-2 justify-center hover:bg-[#F5F8FA] text-black dark:text-white dark:hover:bg-[#FE686F]'>

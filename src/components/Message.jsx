@@ -62,9 +62,9 @@ const Options = () => {
                             </div>
                             <div className='flex flex-col justify-center gap-2 '>
                                 {
-                                    Message_options.map((option) => {
+                                    Message_options.map((option, index) => {
                                         return (
-                                            <button className='flex hover:bg-[#E9EAED] dark:hover:text-black px-2 py-1 rounded-xl' onClick={option.onPress} type='button'>{option.title}</button>
+                                            <button key={index} className='flex hover:bg-[#E9EAED] dark:hover:text-black px-2 py-1 rounded-xl' onClick={option.onPress} type='button'>{option.title}</button>
                                         )
                                     })
                                 }

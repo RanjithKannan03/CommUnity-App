@@ -52,7 +52,7 @@ const CommunitiesList = (props) => {
                     :
                     <motion.div className='flex items-center justify-center w-full text-black dark:text-white' initial={{ height: 0 }} animate={{ height: 100 }} exit={{ height: 0 }}>
 
-                        <span>You're not currently following any communities.</span>
+                        <span>You{"'re"} not currently following any communities.</span>
 
                     </motion.div>
                     :
