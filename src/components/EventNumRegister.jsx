@@ -13,7 +13,10 @@ const EventNumRegister = ({ event }) => {
                         <div className='flex flex-col w-full gap-2'>
                             <span className='text-2xl'>Participants:</span>
 
-                            <span className='font-semibold'>{event.participatingUserids.length}</span>
+                            <div className='flex items-center gap-4'>
+                                <span>Count: </span>
+                                <span className='font-semibold'>{event.participatingUserids.length}</span>
+                            </div>
 
                         </div>
                     )
