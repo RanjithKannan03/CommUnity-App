@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import CommunityPosts from '@/components/CommunityPosts';
 import { motion } from 'framer-motion';
 import CommunityEvents from './CommunityEvents';
+import Communityitems from './CommunityStore';
 
-const CommunityPageContent = ({ posts, events }) => {
+const CommunityPageContent = ({ posts, events, items }) => {
 
     const options = [
         {
@@ -15,7 +16,7 @@ const CommunityPageContent = ({ posts, events }) => {
             name: 'Events'
         },
         {
-            name: 'Volunteer Events'
+            name: 'Store'
         }
     ];
 
@@ -42,7 +43,7 @@ const CommunityPageContent = ({ posts, events }) => {
 
             {/* Posts */}
             {
-                type === 'Posts' ? <CommunityPosts posts={posts} /> : <CommunityEvents events={events} />
+                type === 'Posts' ? <CommunityPosts posts={posts} /> : type === "Events" ? <CommunityEvents events={events} /> : <Communityitems items={items} />
             }
             {/* <CommunityPosts posts={posts} /> */}
         </div>

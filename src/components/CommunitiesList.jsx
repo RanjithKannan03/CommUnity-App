@@ -24,13 +24,13 @@ const CommunitiesList = (props) => {
             {
                 open ? user.followingCommunityIDs.length > 0 ?
                     (
-                        <motion.div key={1} className='flex-col items-center w-full overflow-y-auto' initial={{ height: 0 }} animate={{ height: 500 }} exit={{ height: 0 }}>
+                        <motion.div className='flex-col items-center w-full overflow-y-auto' initial={{ height: 0 }} animate={{ height: 500 }} exit={{ height: 0 }}>
 
-                            <div key={1} className='flex flex-col items-center w-full gap-2'>
+                            <div className='flex flex-col items-center w-full gap-2'>
 
                                 {props.communities.map((community) => {
                                     return (
-                                        <Link key={community.id} className='flex items-center w-full gap-4 px-4 py-2 hover:bg-[#D7F3FF] dark:hover:bg-[#FE686F] rounded-xl' href={`/community/${community._id}`}>
+                                        <Link key={community._id} className='flex items-center w-full gap-4 px-4 py-2 hover:bg-[#D7F3FF] dark:hover:bg-[#FE686F] rounded-xl' href={`/community/${community._id}`}>
 
                                             <div className='relative w-10 h-10'>
 

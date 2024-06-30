@@ -10,7 +10,7 @@ import { Strategy } from 'passport-local';
 import { connect } from 'getstream';
 import { StreamChat } from 'stream-chat';
 
-import { User, Community, Posts, Comments, Events } from './models/models.js';
+import { User, Community, Posts, Comments, Events, Notifications, Item } from './models/models.js';
 
 
 const app = express();
@@ -129,7 +129,7 @@ app.get('/isAuthenticated', (req, res) => {
             avatarURL: req.user.avatarURL,
             followingCommunityIDs: req.user.communityIDs,
             participatingEventIds: req.user.participatingEventIds,
-            likedPosts: req.user.likedPosts
+            likedPosts: req.user.likedPosts,
         };
         return res.status(200).json({ message: true, user: user });
     }
@@ -258,6 +258,7 @@ app.get('/community/:communityId', async (req, res) => {
         }
         const posts = await Posts.find({ communityId }).populate('userId', '_id username avatarURL').sort({ createdAt: -1 });
         const events = await Events.find({ communityId }).sort({ createdAt: -1 });
+        const items = await Item.find({ communityId }).sort({ createdAt: -1 });
         const data = {
             communityId: community._id,
             bannerURL: community.bannerURL,
@@ -268,7 +269,9 @@ app.get('/community/:communityId', async (req, res) => {
             followingUsers: community.followingUserIDs,
             createdAt: community.createdAt.toLocaleDateString(),
             posts: posts,
-            events: events
+            events: events,
+            merchantIds: community.merchantIds,
+            items: items
         }
         return res.status(200).json({ data });
     }
@@ -565,6 +568,17 @@ app.post('/createComment', async (req, res) => {
             { new: true }
         );
 
+        const opId = post.userId;
+
+        const newNotification = new Notifications({
+            userId: opId,
+            postId: postId,
+            merchantId: userId,
+            type: "Comment"
+        });
+
+        await newNotification.save();
+
         return res.status(200).json({ message: 'success' });
     }
     catch (e) {
@@ -657,7 +671,7 @@ app.get('/event', async (req, res) => {
         return res.status(500).json({ message: "Please try again later." });
     }
 
-})
+});
 
 app.post('/registerEvent', async (req, res) => {
     const eventId = req.body.eventId;
@@ -709,6 +723,132 @@ app.get('/eventParticipants', async (req, res) => {
     }
 });
 
+app.get('/notifications', async (req, res) => {
+    const userId = req.user._id;
+    try {
+        const notifications = await Notifications.find({ userId: userId }).populate("merchantId", "_id username avatarURL").populate("communityId", "_id name").sort({ createdAt: -1 });
+        console.log("Notifications");
+        console.log(notifications);
+        return res.status(200).json({ message: 'success', notifications: notifications });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/deleteNotification', async (req, res) => {
+    const notificationId = req.body.notificationId;
+
+    try {
+        await Notifications.findByIdAndDelete(notificationId);
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/request', async (req, res) => {
+    const communityId = req.body.communityId;
+    const userId = req.user._id;
+
+    console.log(communityId);
+    console.log(req.body);
+
+    try {
+        const community = await Community.findById(communityId);
+
+        const newNotification = new Notifications({
+            userId: community.adminId,
+            communityId: communityId,
+            merchantId: userId,
+            type: "Request",
+            status: "Pending"
+        });
+        await newNotification.save();
+        return res.status(200).json({ message: 'success' });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+
+app.get('/requestStatus', async (req, res) => {
+    const communityId = req.query.communityId;
+    const userId = req.user._id;
+
+    try {
+        const notification = await Notifications.findOne({ communityId: communityId, merchantId: userId, type: "Request" });
+        console.log(notification);
+        if (!notification) {
+            return res.status(200).json({ status: "Not sent" });
+        }
+        else {
+            return res.status(200).json({ status: notification.status });
+        }
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/acceptRequest', async (req, res) => {
+    const notificationId = req.body.notificationId;
+    const userId = req.user._id;
+    try {
+        const notification = await Notifications.findByIdAndUpdate(notificationId,
+            { status: "Accepted" },
+            { new: true }
+        );
+
+        const updateCommunity = await Community.findByIdAndUpdate(notification.communityId,
+            { $push: { merchantIds: notification.merchantId } },
+            { new: true }
+        );
+        return res.status(200).json({ message: "success" });
+
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+});
+
+app.post('/createItem', async (req, res) => {
+
+    console.log(req.body);
+
+    const name = req.body.name;
+    const description = req.body.description;
+    const communityId = req.body.communityId;
+    const price = req.body.price;
+    const attachmentURL = req.body.attachmentURL;
+    const userId = req.user._id;
+
+    try {
+        const newItem = new Item({
+            name: name,
+            description: description,
+            communityId: communityId,
+            price: price,
+            attachmentURL: attachmentURL,
+            merchantId: userId
+        });
+        await newItem.save();
+        return res.status(200).json({ message: "success" });
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Please try again later." });
+    }
+
+
+});
 
 
 // passport local strategy

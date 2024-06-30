@@ -14,7 +14,7 @@ const CommunityEvents = ({ events }) => {
                         )
                     })
                     :
-                    <span>There currently now events held.</span>
+                    <span>There currently no events held.</span>
             }
 
 

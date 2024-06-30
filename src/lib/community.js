@@ -21,6 +21,12 @@ export async function createCommunity(prevState, formData) {
     if (!description || description.trim().length === 0) {
         return { error: "Description cannot be blank." }
     }
+    if (banner.size == 0) {
+        return { error: "Banner cannot be empty." }
+    }
+    if (logo.size == 0) {
+        return { error: "Logo cannot be empty." }
+    }
 
     // const bannerURL = await uploadImage(banner);
     // const logoURL = await uploadImage(logo);

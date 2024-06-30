@@ -29,7 +29,7 @@ export const JoinCommunityButton = (props) => {
         <>
             {
                 props.adminId === user.id ?
-                    <div className='flex items-center justify-center p-2 rounded-full ring-1 ring-black dark:ring-white'>
+                    <div className='flex items-center justify-center p-2 text-center rounded-full ring-1 ring-black dark:ring-white'>
 
                         <span>You are the admin</span>
 

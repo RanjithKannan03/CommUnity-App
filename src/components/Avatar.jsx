@@ -32,15 +32,17 @@ const Avatar = () => {
     }
 
     return (
-        <>
-            <button className='relative w-12 h-12 p-2 rounded-full active:ring-4 active:ring-white' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
+
+        <div className='relative' onClick={() => { setIsOpen((prev) => { return !prev }) }}>
+            <div className='relative w-12 h-12 p-2 rounded-full cursor-pointer active:ring-4 active:ring-white'>
                 <Image src={user.avatarURL} alt='profile-pic' priority fill sizes='48' className='object-contain rounded-full' />
-            </button>
+            </div>
+
 
             <AnimatePresence>
                 {
                     isOpen && (
-                        <motion.div variants={cardVariant} initial="close" animate="open" exit="close" className='origin-top-right absolute  w-[275px] sm:right-4 md:right-8 lg:right-20 xl:right-44 top-full z-30 flex flex-col gap-4 py-6 rounded shadow-xl drop-shadow-xl bg-white'>
+                        <motion.div variants={cardVariant} initial="close" animate="open" exit="close" className='origin-top-right absolute  w-[275px] right-1/2 top-full z-30 flex flex-col gap-4 py-6 rounded shadow-xl drop-shadow-xl bg-white' onClick={(e) => { e.stopPropagation() }}>
 
                             <button className='flex items-center w-full gap-4 px-4 py-2 hover:bg-zinc-100' type='button'>
 
@@ -73,7 +75,10 @@ const Avatar = () => {
                     )
                 }
             </AnimatePresence>
-        </>
+        </div>
+
+
+
     )
 }
 

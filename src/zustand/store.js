@@ -50,3 +50,10 @@ export const chatListStore = create(
         toggle: () => set({ open: !get().open })
     })
 );
+
+export const sstore = create(
+    (set, get) => ({
+        communityId: null,
+        setCommunityId: (communityId) => set({ communityId: communityId })
+    })
+)

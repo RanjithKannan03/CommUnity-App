@@ -7,6 +7,7 @@ import DescriptionLimited from '@/components/DescriptionLimited';
 import DescriptionFull from '@/components/DescriptionFull';
 import CommunityPageContent from '@/components/CommunityPageContent';
 import AdminActions from '@/components/AdminActions';
+import MerchantRequest from '@/components/MerchantRequest';
 
 
 const page = async ({ params }) => {
@@ -27,44 +28,47 @@ const page = async ({ params }) => {
                     <div className='relative w-full h-1/2'>
                         <CommunityBanner url={data.bannerURL} />
 
-                        <div className='absolute flex gap-8 -bottom-20 left-10'>
+                        <div className='absolute flex gap-8 top-[80%] left-10'>
 
-                            <div className='relative w-32 h-32 rounded-full'>
+                            <div className='relative rounded-full w-28 h-28 xl:w-32 xl:h-32'>
                                 <CommunityLogo url={data.logoURL} />
                             </div>
 
-                            <span className='self-end pb-4 text-2xl font-semibold'>{data.name}</span>
+                            <span className='self-end pb-4 text-lg font-semibold lg:text-xl xl:text-2xl'>{data.name}</span>
 
                         </div>
                     </div>
 
-                    <div className='flex flex-col w-full gap-2'>
+                    <div className='flex flex-col w-full gap-2 pt-10'>
 
                         {/* Description */}
                         <DescriptionLimited description={data.description} />
 
-                        <div className='flex items-center self-end gap-8 px-4'>
+                        <div className='flex flex-col items-center self-end gap-8 px-4 lg:flex-row'>
 
-                            <div className='flex flex-col justify-center'>
-                                <span className=''>{data.followingUsers.length}</span>
-                                <span className='text-sm font-light'>{data.followingUsers.length === 1 ? 'Member' : 'Members'}</span>
+                            <div className='flex items-center self-end gap-8'>
+                                <div className='flex flex-col justify-center'>
+                                    <span className=''>{data.followingUsers.length}</span>
+                                    <span className='text-sm font-light'>{data.followingUsers.length === 1 ? 'Member' : 'Members'}</span>
+                                </div>
+
+                                <div className='flex flex-col justify-center'>
+                                    <span className=''>{data.createdAt}</span>
+                                    <span className='text-xs font-light'>Created On</span>
+                                </div>
                             </div>
 
-                            <div className='flex flex-col justify-center'>
-                                <span className=''>{data.createdAt}</span>
-                                <span className='text-xs font-light'>Created On</span>
-                            </div>
 
-                            <div>
+                            <div className='flex items-center self-end gap-8'>
+
                                 <JoinCommunityButton communityId={data.communityId} adminId={data.adminId} />
-                            </div>
 
-                            {/* Admin Actions */}
-
-                            <div>
                                 <AdminActions adminId={data.adminId} communityId={params.communityId} />
 
+
+                                <MerchantRequest data={data} communityId={params.communityId} />
                             </div>
+
 
                         </div>
 
@@ -74,7 +78,7 @@ const page = async ({ params }) => {
 
                 {/* Content */}
 
-                <CommunityPageContent posts={data.posts} events={data.events} />
+                <CommunityPageContent posts={data.posts} events={data.events} items={data.items} />
 
 
             </div>

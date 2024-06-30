@@ -51,6 +51,11 @@ const NewEventForm = () => {
         const transformations = `w_120,q_${config.quality}`;
         return `${urlStart}upload/${transformations}/${urlEnd}`;
     }
+
+    if (!communityId) {
+        throw new Error("You are not authorised.");
+    }
+
     return (
         <form className='w-full lg:w-[70%] flex flex-col gap-8 rounded-xl bg-[#D7F3FF] dark:bg-[#1F1F1F] p-6' action={formAction}>
 

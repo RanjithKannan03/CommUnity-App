@@ -12,6 +12,7 @@ import Link from 'next/link';
 import logo from '../../public/assets/logo.png';
 import Image from 'next/image';
 import CommunitySearchBar from './CommunitySearchBar';
+import Notifications from './Notifications';
 
 const Navbar = () => {
 
@@ -31,7 +32,7 @@ const Navbar = () => {
     ]
 
     return (
-        <div className='flex justify-between items-center bg-[#5B96F7] dark:bg-[#B43638] w-full h-full py-4 px-4 md:px-8 lg:px-20 xl:px-44 relative'>
+        <div className='flex justify-between items-center bg-[#5B96F7] dark:bg-[#B43638] w-full h-full py-4 px-4 md:px-8 lg:px-20 xl:px-44'>
 
 
             {/* Logo and Name and Burger */}
@@ -83,6 +84,10 @@ const Navbar = () => {
                         )
                     })
                 }
+
+                {/* Notifications */}
+
+                <Notifications />
 
                 {/* Avatar */}
 

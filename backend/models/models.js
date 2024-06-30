@@ -1,3 +1,4 @@
+import { NumberOne } from '@phosphor-icons/react';
 import mongoose, { Schema } from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -39,6 +40,10 @@ const communitySchema = new mongoose.Schema({
         default: 'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'
     },
     followingUserIDs: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        default: []
+    },
+    merchantIds: {
         type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
         default: []
     }
@@ -128,5 +133,48 @@ const eventScheme = new mongoose.Schema({
 
 export const Events = mongoose.model('Event', eventScheme);
 
+const notificationsSchema = new mongoose.Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    communityId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Community'
+    },
+    postId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    },
+    merchantId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    type: String,
+    status: String,
+    unread: {
+        type: Boolean,
+        default: true
+    }
+}, { timestamps: true });
+
+export const Notifications = mongoose.model('Notification', notificationsSchema);
+
+const itemSchema = new mongoose.Schema({
+    merchantId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    communityId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Community'
+    },
+    name: String,
+    description: String,
+    attachmentURL: String,
+    price: Number
+}, { timestamps: true });
+
+export const Item = mongoose.model('Store', itemSchema);
 
 

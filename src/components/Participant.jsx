@@ -35,7 +35,7 @@ const Participant = ({ participant }) => {
 
 
             </div>
-            <div className='w-full h-[1px] dark:bg-white bg-black' />
+            <div className='w-full h-[1px] dark:bg-white bg-gray-400' />
         </div>
     )
 }

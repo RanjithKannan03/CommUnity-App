@@ -13,7 +13,7 @@ const page = async ({ params }) => {
     return (
         <div className='flex flex-col w-full h-screen py-10'>
 
-            <div className='flex flex-col items-center w-full gap-8 pb-20 overflow-y-auto'>
+            <div className='flex flex-col items-center w-full gap-8 pb-20'>
                 {/* Post */}
                 <div className='flex flex-col w-full lg:w-[65%] items-start p-3 rounded-xl gap-2 bg-[#D7F3FF] dark:bg-[#1F1F1F]'>
 
@@ -56,7 +56,7 @@ const page = async ({ params }) => {
                         post.attachmentURL ?
                             (
                                 <div className='w-full h-[40rem] relative bg-white dark:bg-black rounded-lg'>
-                                    <Image src={post.attachmentURL} fill sizes='640' className='object-contain' alt='post image' />
+                                    <Image src={post.attachmentURL} fill sizes='640' className='object-contain' alt='post image' priority />
                                 </div>
                             )
                             :

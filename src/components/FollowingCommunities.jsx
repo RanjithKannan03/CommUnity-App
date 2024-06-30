@@ -17,6 +17,8 @@ const FollowingCommunities = (props) => {
             await getCommunities();
         }
         get();
+        const intervalId = setInterval(get, 10000);
+        return () => clearInterval(intervalId);
     }, []);
 
     async function getCommunities() {

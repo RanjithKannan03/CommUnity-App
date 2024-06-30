@@ -8,7 +8,7 @@ const DescriptionLimited = (props) => {
 
     return (
         <button type='button' className='flex items-center justify-center w-full p-4 text-center' onClick={toggle}>
-            <span className='text-lg font-semibold leading-8 line-clamp-4'>{props.description}</span>
+            <span className='text-lg font-semibold leading-8 line-clamp-2 lg:line-clamp-4'>{props.description}</span>
         </button>
     )
 }
