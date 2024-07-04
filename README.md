@@ -36,3 +36,6 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 Demo link - https://www.community.evaravu.com/
+
+Note: 
+Please be patient if you open the site and it seems stuck or you see a white screen. Since we use a free plan on render.com the site would be suspended after a period of inactivity. If that happens the site would start working in 2 mins and the login or register would also take 2 more minutes, since the backend is hosted seperately and it also needs to become active. After this the site would start functioning normally and there won't be any delays until render.com decides to suspend the site again.
